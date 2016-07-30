@@ -46,29 +46,36 @@ const mutations = {
   [ADD_MODULE](state, module) {
     state.retrieveError = false;
     state.userModules.push(module);
-    if (module.hasOwnProperty('Timetable')) {
+    if (Object.prototype.hasOwnProperty.call(module, 'Timetable')) {
       allocateLessons(state, module);
       sortByLengthDescending(state.week);
     }
-    // wrap color if more than 9 modules
-    state.colorCounter = (state.colorCounter + 1) % colorsList.length;
-    module.Color = colorsList[state.colorCounter];
+
+    // if no pre-defined color, set one
+    if (!Object.prototype.hasOwnProperty.call(module, 'Color')) {
+      // wrap color if more than 9 modules
+      state.colorCounter = (state.colorCounter + 1) % colorsList.length;
+      module.Color = colorsList[state.colorCounter];
+    }
     insertCSSClass(module);
   },
   [ADD_ERROR](state) {
     state.retrieveError = true;
   },
-  [CHANGE_MODULE_COLOR](state, module, colorHex) {
-    const index = state.userModules.length - state.userModules.indexOf(module) - 1;
-    const cssRuleCode = document.all ? 'rules' : 'cssRules'; // account for IE and FF
-    const rule = document.styleSheets[0][cssRuleCode][index];
-    rule.style.color = colorHex;
-    module.Color = colorHex;
+  [CHANGE_MODULE_COLOR](state, module, colorInHex) {
+    changeCSSClass(state, module, colorInHex);
+    module.Color = colorInHex;
   },
   [DELETE_MODULE](state, module) {
+    const week = state.week;
     const moduleCode = module.ModuleCode;
-    Object.values(state.week).filter(lesson => !lesson.moduleCode.match(moduleCode));
+    const arrayOfKeys = Object.keys(week);
+    for (let i = arrayOfKeys.length - 1; i >= 0; i--) {
+      const day = arrayOfKeys[i];
+      week[day] = week[day].filter(lesson => lesson.moduleCode !== moduleCode);
+    }
     state.userModules.$remove(module);
+    removeCSSClass(state, module);
   },
   [ON_CLICK_LESSON](state, lesson) {
     // user starts to pick lesson type
@@ -110,10 +117,35 @@ export default {
 };
 
 // set color for module via inserting it in a stylesheet
+function findCSSClassIndex(state, module) {
+  return state.userModules.length - state.userModules.indexOf(module) - 1;
+}
+
 function insertCSSClass(module) {
-  const colorClass = `.module__${module.ModuleCode}`;
-  const color = module.Color;
-  document.styleSheets[0].insertRule(`${colorClass}{color:${color};}`, 0);
+  const sheet = document.styleSheets[0];
+  const ruleString = `.module__${module.ModuleCode}{color:${module.Color};}`;
+  if (sheet.insertRule) {
+    sheet.insertRule(ruleString, 0);
+  } else {
+    sheet.addRule(ruleString, 0);
+  }
+}
+
+function removeCSSClass(state, module) {
+  const index = findCSSClassIndex(state, module);
+  const sheet = document.styleSheets[0];
+  if (sheet.deleteRule) {
+    sheet.deleteRule(index);
+  } else {
+    sheet.removeRule(index);
+  }
+}
+
+function changeCSSClass(state, module, colorInHex) {
+  const index = findCSSClassIndex(state, module);
+  const sheet = document.styleSheets[0];
+  const rule = sheet.cssRules ? sheet.cssRules[index] : sheet.rules[index];
+  rule.style.color = colorInHex;
 }
 
 function setSelected(state) {
@@ -136,27 +168,36 @@ function sortByLengthDescending(week) {
 }
 
 function allocateLessons(state, module) {
-  const lessons = {};
-  for (const data of module.Timetable) {
-    const lesson = createLesson(data, module.ModuleCode);
+  if (Array.isArray(module.Timetable)) {
+    const lessons = {};
+    // came from api, no processing done yet, so let's get to work
+    for (let i = module.Timetable.length - 1; i >= 0; i--) {
+      const lesson = createLesson(module.Timetable[i], module.ModuleCode);
+      insertLessonByType(lessons, lesson);
 
-    insertLessonByType(lessons, lesson);
-
-    // add to the timetable
-    state.week[lesson.dayText].push(lesson);
-  }
-
-  Object.values(lessons).forEach((listOfLessons) => {
-    const classNo = listOfLessons[0].classNo;
-    if (listOfLessons.every(lesson => lesson.classNo === classNo)) {
-      listOfLessons.forEach(lesson => {
-        lesson.displayStatus = ONLY;
-      });
+      // add to the timetable
+      state.week[lesson.dayText].push(lesson);
     }
-  });
-  // replace with the sorted version
-  module.Timetable = lessons;
 
+    Object.values(lessons).forEach((listOfLessons) => {
+      const classNo = listOfLessons[0].classNo;
+      if (listOfLessons.every(lesson => lesson.classNo === classNo)) {
+        listOfLessons.forEach(lesson => {
+          lesson.displayStatus = ONLY;
+        });
+      }
+    });
+    // replace with the sorted version
+    module.Timetable = lessons;
+  } else {
+    // came from forage, just restore back data
+    Object.values(module.Timetable).forEach((listOfLessons) => {
+      for (let i = listOfLessons.length - 1; i >= 0; i--) {
+        const lesson = listOfLessons[i];
+        state.week[lesson.dayText].push(lesson);
+      }
+    });
+  }
   // Object.freeze(module.Timetable)
   // Object.freeze(module)
 }

@@ -48,7 +48,8 @@ export default {
       const weekArray = Object.values(this.week);
       for (let day = weekArray.length - 1; day >= 0; day--) {
         for (const lesson of weekArray[day]) {
-          if (parseInt(lesson.endTime, 10) > maxSchoolHours) {
+          if (lesson.displayStatus !== 'hidden' &&
+            parseInt(lesson.endTime, 10) > maxSchoolHours) {
             return true;
           }
         }

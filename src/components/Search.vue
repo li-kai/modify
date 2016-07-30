@@ -156,16 +156,15 @@ export default {
       return !isNaN(parseInt(search, 10)) &&
         value.replace(/\D/g, '').toUpperCase().startsWith(search);
     },
-    querySearch(list, search) {
+    querySearch(listOfModules, search) {
       search = search.toUpperCase();
       const codeMatches = [];
       const nameMatches = [];
-      const modulesArr = Object.entries(list);
+      const arrayOfKeys = Object.keys(listOfModules);
 
-      for (let i = modulesArr.length - 1; i >= 0; i--) {
-        const keyPair = modulesArr[i];
-        const code = keyPair[0];
-        const name = keyPair[1];
+      for (let i = arrayOfKeys.length - 1; i >= 0; i--) {
+        const code = arrayOfKeys[i];
+        const name = listOfModules[code];
         if (this.queryNumber(code, search) || this.queryText(code, search)) {
           const module = { code, name };
           codeMatches.push(module);
