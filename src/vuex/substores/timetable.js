@@ -33,6 +33,8 @@ const state = {
     wed: [],
     thu: [],
     fri: [],
+    sat: [],
+    sun: [],
   },
   userModules: [],
   selectable: [],
@@ -51,12 +53,9 @@ const mutations = {
       sortByLengthDescending(state.week);
     }
 
-    // if no pre-defined color, set one
-    if (!Object.prototype.hasOwnProperty.call(module, 'Color')) {
-      // wrap color if more than 9 modules
-      state.colorCounter = (state.colorCounter + 1) % colorsList.length;
-      module.Color = colorsList[state.colorCounter];
-    }
+    // wrap color if more than 9 modules
+    state.colorCounter = (state.colorCounter + 1) % colorsList.length;
+    module.Color = colorsList[state.colorCounter];
     insertCSSClass(module);
   },
   [ADD_ERROR](state) {
@@ -75,7 +74,6 @@ const mutations = {
       week[day] = week[day].filter(lesson => lesson.moduleCode !== moduleCode);
     }
     state.userModules.$remove(module);
-    removeCSSClass(state, module);
   },
   [ON_CLICK_LESSON](state, lesson) {
     // user starts to pick lesson type
@@ -127,24 +125,14 @@ function insertCSSClass(module) {
   if (sheet.insertRule) {
     sheet.insertRule(ruleString, 0);
   } else {
-    sheet.addRule(ruleString, 0);
-  }
-}
-
-function removeCSSClass(state, module) {
-  const index = findCSSClassIndex(state, module);
-  const sheet = document.styleSheets[0];
-  if (sheet.deleteRule) {
-    sheet.deleteRule(index);
-  } else {
-    sheet.removeRule(index);
+    sheet.addRule(ruleString, 0);  // IE
   }
 }
 
 function changeCSSClass(state, module, colorInHex) {
   const index = findCSSClassIndex(state, module);
   const sheet = document.styleSheets[0];
-  const rule = sheet.cssRules ? sheet.cssRules[index] : sheet.rules[index];
+  const rule = sheet.cssRules ? sheet.cssRules[index] : sheet.rules[index];  // IE
   rule.style.color = colorInHex;
 }
 
@@ -178,7 +166,6 @@ function allocateLessons(state, module) {
       // add to the timetable
       state.week[lesson.dayText].push(lesson);
     }
-
     Object.values(lessons).forEach((listOfLessons) => {
       const classNo = listOfLessons[0].classNo;
       if (listOfLessons.every(lesson => lesson.classNo === classNo)) {

@@ -19,7 +19,7 @@
         <svg><use xlink:href="#info"/></svg>
       </button>
       <mod-change-color @click="setIsPainting()"
-      v-if="isPainting" :module="module" transition="color"></mod-change-color>
+      v-if="isChoosingColor" :module="module" transition="color"></mod-change-color>
     </td>
   </tr>
 </template>
@@ -49,16 +49,34 @@ export default {
 
   data() {
     return {
-      isPainting: false,
+      isChoosingColor: false,
+      colorClass: '',
     };
+  },
+
+  created() {
+    this.colorClass = `module__${this.module.ModuleCode}`;
+    // const moduleColor = this.module.Color;
+    // document.styleSheets[0].insertRule(`${colorClass}{color:${moduleColor};}`, 0);
+    console.log('insertRule');
+  },
+
+  beforeDestroy() {
+    const sheet = document.styleSheets[0];
+    const rules = sheet.cssRules;
+
+    for (let i = 0, len = rules.length; i < len; i++) {
+      if (rules[i].selectorText === `.${this.colorClass}`) {
+        console.log('deleting');
+        sheet.deleteRule(i);
+        break;
+      }
+    }
   },
 
   computed: {
     readableDate() {
       return this.parseDate(this.module.ExamDate);
-    },
-    colorClass() {
-      return `module__${this.module.ModuleCode}`;
     },
   },
 
@@ -76,10 +94,10 @@ export default {
     showInfo() {
     },
     setIsPainting() {
-      this.isPainting = !this.isPainting;
+      this.isChoosingColor = !this.isChoosingColor;
     },
     setPaintClass() {
-      return this.isPainting ? 'action__button--activated' : '';
+      return this.isChoosingColor ? 'action__button--activated' : '';
     },
   },
 };

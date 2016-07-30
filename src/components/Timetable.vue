@@ -11,6 +11,7 @@
       <ol class="week">
         <li is="mod-day"
             v-for="(name, lessons) in week"
+            v-if="$index < 5 || lessons.length > 0"
             :name="name" :lessons="lessons" :is-expanded="isExpanded">
             <div slot="name">{{ name }}</div>
         </li>
