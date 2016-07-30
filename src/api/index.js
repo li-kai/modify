@@ -9,7 +9,8 @@ const API_ROOT = '//api.nusmods.com/2016-2017/1/';
 const AllModulesResource = Vue.resource(`${API_ROOT}moduleList.json?callback=?`);
 const ModuleResource = Vue.resource(`${API_ROOT}modules/{/moduleCode}.json`);
 
-const MODULE_KEY = 'modify-modules';
+const USER_MODULES_KEY = 'user-modules';
+const ALL_MODULES_KEY = 'modify-modules';
 
 function getFromForage(key, apiCall) {
   return localforage.getItem(key).then((value) => {
@@ -33,7 +34,10 @@ function getFromForage(key, apiCall) {
 
 export default {
   getAllModules() {
-    return getFromForage(MODULE_KEY, AllModulesResource.get());
+    return getFromForage(ALL_MODULES_KEY, AllModulesResource.get());
+  },
+  getUserModules() {
+    return localforage.getItem(USER_MODULES_KEY);
   },
   getModule(moduleCode) {
     return getFromForage(moduleCode, ModuleResource.get({ moduleCode }));

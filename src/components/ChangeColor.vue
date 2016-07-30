@@ -26,7 +26,7 @@ export default {
     return {
       colorsList: [
         '#42A5F5', '#4CAF50', '#FBC02D',
-        '#e74c3c', '#FB8C00', '#BA68C8',
+        '#f64747', '#FB8C00', '#BA68C8',
         '#80CBC4', '#BDBDBD', '#90A4AE',
       ],
     };

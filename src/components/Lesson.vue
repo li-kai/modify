@@ -11,14 +11,17 @@
 </template>
 
 <script>
-import { onClickLesson } from '../vuex/actions';
+import {
+  onChoosingLesson,
+  onChosenLesson,
+} from '../vuex/actions';
 import { } from '../vuex/getters';
 export default {
 
   name: 'Lesson',
 
   vuex: {
-    actions: { onClickLesson },
+    actions: { onChoosingLesson, onChosenLesson },
     getters: {
     },
   },
@@ -48,8 +51,11 @@ export default {
       this.isHorizontal = mediaQueryList.matches;
     },
     lessonClick() {
-      if (this.lesson.displayStatus !== 'only') {
-        this.onClickLesson(this.lesson);
+      const status = this.lesson.displayStatus;
+      if (status === 'ghosted' || status === 'initial') {
+        this.onChosenLesson(this.lesson);
+      } else if (status === 'selected') {
+        this.onChoosingLesson(this.lesson);
       }
     },
     highlightSame() {

@@ -1,9 +1,11 @@
 import {
+  ATTACH_USER_MODULES,
   ADD_MODULE,
   ADD_ERROR,
   CHANGE_MODULE_COLOR,
   DELETE_MODULE,
-  ON_CLICK_LESSON,
+  ON_CHOOSING_LESSON,
+  ON_CHOSEN_LESSON,
   ON_CLICK_OUTSIDE,
 } from '../mutation-types';
 /*
@@ -12,7 +14,6 @@ Specifically, timetable will be doing the following:
   - Allocating lesson types
   - Allocating lessons to a day (mon, tue, etc.)
   - Controlling the visibility status (selected, hidden, fade)
-  - Injecting css styles (yes it's allowed)
 */
 // For visibility of lessons
 const SELECTED = 'selected';
@@ -23,18 +24,13 @@ const INITIAL = 'initial';
 
 // Hex code for colors
 const colorsList = ['#42A5F5', '#4CAF50', '#FBC02D',
-                    '#e74c3c', '#FB8C00', '#BA68C8',
+                    '#f64747', '#FB8C00', '#BA68C8',
                     '#80CBC4', '#BDBDBD', '#90A4AE'];
 
 const state = {
   week: {
-    mon: [],
-    tue: [],
-    wed: [],
-    thu: [],
-    fri: [],
-    sat: [],
-    sun: [],
+    mon: [], tue: [], wed: [], thu: [], fri: [],
+    sat: [], sun: [],
   },
   userModules: [],
   selectable: [],
@@ -45,6 +41,15 @@ const state = {
 
 // mutations
 const mutations = {
+  [ATTACH_USER_MODULES](state, userModules) {
+    if (userModules) {
+      state.userModules = userModules;
+      for (let i = userModules.length - 1; i >= 0; i--) {
+        allocateLessons(state, userModules[i]);
+        sortByLengthDescending(state.week);
+      }
+    }
+  },
   [ADD_MODULE](state, module) {
     state.retrieveError = false;
     state.userModules.push(module);
@@ -73,31 +78,29 @@ const mutations = {
     }
     state.userModules.$remove(module);
   },
-  [ON_CLICK_LESSON](state, lesson) {
+  [ON_CHOOSING_LESSON](state, lesson) {
     // user starts to pick lesson type
     // make all lesson types ghosted to be selectable
-    if (state.selectable.length === 0) {
-      // get the reference to modules
-      const module = state.userModules.find(module => module.ModuleCode === lesson.moduleCode);
 
-      // make selectable the list of lessons
-      state.selectable = module.Timetable[lesson.lessonType];
-      state.selectable.forEach(lesson => {
-        lesson.displayStatus = GHOSTED;
-      });
-      // make initial selected lesson look different from others
-      lesson.displayStatus = INITIAL;
+    // get the reference to modules
+    const module = state.userModules.find(module => module.ModuleCode === lesson.moduleCode);
+
+    // make selectable the list of lessons
+    state.selectable = module.Timetable[lesson.lessonType];
+    state.selectable.forEach(lesson => {
+      lesson.displayStatus = GHOSTED;
+    });
+    // make initial selected lesson look different from others
+    lesson.displayStatus = INITIAL;
+    state.selected = lesson;
+  },
+  [ON_CHOSEN_LESSON](state, lesson) {
+    // user clicked on same lesson type
+    if (state.selected.moduleCode === lesson.moduleCode &&
+      state.selected.lessonType === lesson.lessonType) {
       state.selected = lesson;
-
-    // user has picked a lesson, hide all other lessons
-    } else {
-      // user clicked on same lesson type
-      if (state.selected.moduleCode === lesson.moduleCode &&
-        state.selected.lessonType === lesson.lessonType) {
-        state.selected = lesson;
-      }
-      setSelected(state);
     }
+    setSelected(state);
   },
   // user clicked outside, put previously selected back
   [ON_CLICK_OUTSIDE](state) {

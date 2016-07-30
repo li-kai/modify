@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 import timetable from './substores/timetable';
 import search from './substores/search';
+import plugin from './plugin';
 
 // Make vue aware of Vuex
 Vue.use(Vuex);
@@ -15,5 +16,6 @@ export default new Vuex.Store({
     timetable,
     search,
   },
+  plugins: plugin,
   strict: process.env.NODE_ENV !== 'production',
 });

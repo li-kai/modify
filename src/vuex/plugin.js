@@ -1,47 +1,22 @@
-/* eslint-disable */
-import * as localforage from "localforage"
+import localforage from 'localforage';
 import {
-  ATTACH_USER_MODULES,
   ADD_MODULE,
   DELETE_MODULE,
-  ON_CLICK_LESSON
-} from './mutation-types'
+  CHANGE_MODULE_COLOR,
+  ON_CHOSEN_LESSON,
+} from './mutation-types';
 
-const STORAGE_KEY = 'modify-modules'
+const STORAGE_KEY = 'user-modules';
 
-const localStoragePlugin = store => {
-  const storage = window.localStorage
-  if (!isStoragePresent(storage)) {
-    return // no storage, early return
-  }
-  localforage.getItem(STORAGE_KEY).then(function (value) {
-    console.log('success')
-    console.log(value)
-  }).catch(function (err) {
-    console.log('error')
-    console.log(err)
-  })
-  const timetable = JSON.parse(storage.getItem(STORAGE_KEY))
-  store.dispatch(ATTACH_USER_MODULES, timetable)
-
+const localForagePlugin = store => {
   store.subscribe((mutation, { timetable }) => {
     if (mutation.type === ADD_MODULE ||
       mutation.type === DELETE_MODULE ||
-      mutation.type === ON_CLICK_LESSON) {
-      storage.setItem(STORAGE_KEY, JSON.stringify(timetable))
+      mutation.type === ON_CHOSEN_LESSON ||
+      mutation.type === CHANGE_MODULE_COLOR) {
+      localforage.setItem(STORAGE_KEY, timetable.userModules);
     }
-  })
-}
+  });
+};
 
-function isStoragePresent (storage) {
-  const test = 'test'
-  try {
-    storage.setItem(test, test)
-    storage.removeItem(test)
-    return true
-  } catch (e) {
-    return false
-  }
-}
-
-export default [localStoragePlugin]
+export default [localForagePlugin];
