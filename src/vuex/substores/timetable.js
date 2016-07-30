@@ -56,13 +56,11 @@ const mutations = {
     // wrap color if more than 9 modules
     state.colorCounter = (state.colorCounter + 1) % colorsList.length;
     module.Color = colorsList[state.colorCounter];
-    insertCSSClass(module);
   },
   [ADD_ERROR](state) {
     state.retrieveError = true;
   },
   [CHANGE_MODULE_COLOR](state, module, colorInHex) {
-    changeCSSClass(state, module, colorInHex);
     module.Color = colorInHex;
   },
   [DELETE_MODULE](state, module) {
@@ -113,28 +111,6 @@ export default {
   state,
   mutations,
 };
-
-// set color for module via inserting it in a stylesheet
-function findCSSClassIndex(state, module) {
-  return state.userModules.length - state.userModules.indexOf(module) - 1;
-}
-
-function insertCSSClass(module) {
-  const sheet = document.styleSheets[0];
-  const ruleString = `.module__${module.ModuleCode}{color:${module.Color};}`;
-  if (sheet.insertRule) {
-    sheet.insertRule(ruleString, 0);
-  } else {
-    sheet.addRule(ruleString, 0);  // IE
-  }
-}
-
-function changeCSSClass(state, module, colorInHex) {
-  const index = findCSSClassIndex(state, module);
-  const sheet = document.styleSheets[0];
-  const rule = sheet.cssRules ? sheet.cssRules[index] : sheet.rules[index];  // IE
-  rule.style.color = colorInHex;
-}
 
 function setSelected(state) {
   const classNo = state.selected.classNo;

@@ -42,23 +42,21 @@ export default {
     module: {
       type: Object,
     },
-    index: {
-      type: Number,
-    },
   },
 
   data() {
     return {
       isChoosingColor: false,
       colorClass: '',
+      readableDate: '',
     };
   },
 
   created() {
+    this.readableDate = this.parseDate(this.module.ExamDate);
     this.colorClass = `module__${this.module.ModuleCode}`;
-    // const moduleColor = this.module.Color;
-    // document.styleSheets[0].insertRule(`${colorClass}{color:${moduleColor};}`, 0);
-    console.log('insertRule');
+    const moduleColor = this.module.Color;
+    document.styleSheets[0].insertRule(`.${this.colorClass}{color:${moduleColor};}`, 0);
   },
 
   beforeDestroy() {
@@ -67,17 +65,10 @@ export default {
 
     for (let i = 0, len = rules.length; i < len; i++) {
       if (rules[i].selectorText === `.${this.colorClass}`) {
-        console.log('deleting');
-        sheet.deleteRule(i);
+        setTimeout(() => sheet.deleteRule(i), 300); // prevent fade to black
         break;
       }
     }
-  },
-
-  computed: {
-    readableDate() {
-      return this.parseDate(this.module.ExamDate);
-    },
   },
 
   methods: {

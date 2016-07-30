@@ -1,7 +1,7 @@
 <template>
   <ul class="colors">
     <li class="colors__item" v-for="n in 9" :class="'color__' + (n + 1)"
-      @click="changeModuleColor(module, colorsList[n])">
+      @click="changeColor(colorsList[n])">
       <div class="item__shape"></div>
     </li>
   </ul>
@@ -30,6 +30,21 @@ export default {
         '#80CBC4', '#BDBDBD', '#90A4AE',
       ],
     };
+  },
+
+  methods: {
+    changeColor(colorInHex) {
+      const sheet = document.styleSheets[0];
+      const rules = sheet.cssRules;
+
+      for (let i = 0, len = rules.length; i < len; i++) {
+        if (rules[i].selectorText === `.module__${this.module.ModuleCode}`) {
+          rules[i].style.color = colorInHex;
+          break;
+        }
+      }
+      this.changeModuleColor(this.module, colorInHex);
+    },
   },
 };
 </script>
