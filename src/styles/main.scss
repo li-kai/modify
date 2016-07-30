@@ -1,0 +1,62 @@
+html {
+  overflow-y: scroll;
+}
+
+body {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.4;
+  font-family: $fontFamily;
+  margin: 0;
+}
+
+header {
+  width: 100%;
+  height: 48px;
+  background-color: $headerColor;
+}
+
+ol,
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+th {
+  text-align: left;
+  font-weight: 600;
+}
+
+td {
+  padding: 0;
+  margin: 0;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font: inherit; /* 1 */
+  margin: 0; /* 2 */
+}
+
+
+.hidden {
+  display: none;
+  background: red;
+}
+
+svg {
+  height: 1.5rem;
+  width: 1.5rem;
+  transition: all 0.225s $bezierStandardCurve;
+}
+
+footer {
+  position: absolute;
+  width: 100%;
+  height: 48px;
+  background: $footerColor;
+}

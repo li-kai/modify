@@ -1,0 +1,15 @@
+$headerColor: #333333;
+$footerColor: #f2f2f2;
+
+$modulesBackground: #f1f1f1;
+$timetableBorder: 1px solid #E0E0E0;
+$errorColor: #ff0033;
+
+$bezierSharpCurve: cubic-bezier(0.4, 0.0, 0.6, 1);
+$bezierStandardCurve: cubic-bezier(0.4, 0.0, 0.2, 1);
+
+$standardTransition: all 0.225s $bezierStandardCurve;
+
+$materialBoxShadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
+$fontFamily: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
