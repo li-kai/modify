@@ -77,7 +77,7 @@
     border-bottom: 0;
   }
 
-  .day:hover {
+  .day--hoverable:hover {
     background: #CFD8DC;
     color: #fff;
   }

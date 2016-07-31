@@ -15,15 +15,14 @@ import {
   onChoosingLesson,
   onChosenLesson,
 } from '../vuex/actions';
-import { } from '../vuex/getters';
+import { getSelectable } from '../vuex/getters';
 export default {
 
   name: 'Lesson',
 
   vuex: {
     actions: { onChoosingLesson, onChosenLesson },
-    getters: {
-    },
+    getters: { getSelectable },
   },
 
   props: {
@@ -51,10 +50,9 @@ export default {
       this.isHorizontal = mediaQueryList.matches;
     },
     lessonClick() {
-      const status = this.lesson.displayStatus;
-      if (status === 'ghosted' || status === 'initial') {
+      if (this.getSelectable.length !== 0) {
         this.onChosenLesson(this.lesson);
-      } else if (status === 'selected') {
+      } else {
         this.onChoosingLesson(this.lesson);
       }
     },
@@ -105,7 +103,7 @@ export default {
     setSize(style, size) {
       if (this.isHorizontal) {
         // subpixel rounding :/
-        style.width = `${size * 100.5}%`;
+        style.width = `${size * 100.2}%`;
       } else {
         style.height = `${size * 100}%`;
       }

@@ -9,7 +9,7 @@
         </li>
       </ol>
       <ol class="week">
-        <li is="mod-day"
+        <li is="mod-day" :class="toggleHover()"
             v-for="(name, lessons) in week"
             v-if="$index < 5 || lessons.length > 0"
             :name="name" :lessons="lessons" :is-expanded="isExpanded">
@@ -22,12 +22,13 @@
 <script>
 import ModDay from './Day';
 import { attachUserModules } from '../vuex/actions';
-import { } from '../vuex/getters';
+import { getWeek, getSelectable } from '../vuex/getters';
 export default {
   vuex: {
     actions: { attachUserModules },
     getters: {
-      week: ({ timetable }) => timetable.week,
+      week: getWeek,
+      getSelectable,
     },
   },
 
@@ -56,6 +57,9 @@ export default {
       }
       return false;
     },
+    isPlanning() {
+      return this.getSelectable.length !== 0;
+    },
     /* only display relevant hours */
     filteredTimings() {
       const numOfSchoolHours = this.isExpanded ? 17 : 13;
@@ -81,6 +85,9 @@ export default {
     toggleExpanded(className) {
       const expandedName = `${className}--expanded`;
       return [className, this.isExpanded ? expandedName : ''];
+    },
+    toggleHover() {
+      return this.isPlanning ? 'day--hoverable' : '';
     },
   },
 };
