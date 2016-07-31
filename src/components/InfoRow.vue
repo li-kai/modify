@@ -1,27 +1,45 @@
 <template>
-  <tr class="table__module">
-    <td class="module__color">
-      <div class="color__shape" :class="colorClass"></div>
-    </td>
-    <td class="module__code">{{ module.ModuleCode }}</td>
-    <td class="module__title">{{ module.ModuleTitle }}</td>
-    <td class="module__credit">{{ module.ModuleCredit }}</td>
-    <td class="module__exam" >{{ readableDate }}</td>
-    <td class="module__action">
-      <button class="action__button" @click="deleteModule(module)">
-        <svg><use xlink:href="#delete"/></svg>
-      </button>
-      <button class="action__button" :class="setPaintClass()"
-          @click="setIsPainting()">
-        <svg><use xlink:href="#paint"/></svg>
-      </button>
-      <button class="action__button" @click="showInfo(module)">
-        <svg><use xlink:href="#info"/></svg>
-      </button>
-      <mod-change-color @click="setIsPainting()"
-      v-if="isChoosingColor" :module="module" transition="color"></mod-change-color>
-    </td>
-  </tr>
+  <tbody>
+    <tr class="table__module">
+      <td class="module__color">
+        <div class="color__shape" :class="colorClass"></div>
+      </td>
+      <td class="module__code">{{ module.ModuleCode }}</td>
+      <td class="module__title">{{ module.ModuleTitle }}</td>
+      <td class="module__credit">{{ module.ModuleCredit }}</td>
+      <td class="module__exam" >{{ readableDate }}</td>
+      <td class="module__action">
+        <button class="action__button" @click="deleteModule(module)">
+          <svg><use xlink:href="#delete"/></svg>
+        </button>
+        <button class="action__button" :class="setPaintClass()"
+            @click="setIsPainting()">
+          <svg><use xlink:href="#paint"/></svg>
+        </button>
+        <button class="action__button" @click="toggleInfo()">
+          <svg><use xlink:href="#info"/></svg>
+        </button>
+        <mod-change-color @click="setIsPainting()"
+        v-if="isChoosingColor" :module="module" transition="color"></mod-change-color>
+      </td>
+    </tr>
+    <tr class="module__more-info" v-show="showMoreInfo" transition="table__module">
+      <td></td>
+      <td class="module__description" colspan="2">
+        {{ module.ModuleDescription }}
+      </td>
+      <td class="module__credit">
+        {{ module.Department }}
+        {{ module.Workload }}
+      </td>
+      <td class="module__prerequisite" v-if="module.Prerequisite">
+        {{ module.Prerequisite }}
+      </td>
+      <td class="module__code" v-if="module.Preclusion">
+        {{ module.Preclusion }}
+      </td>
+    </tr>
+  </tbody>
 </template>
 
 <script>
@@ -47,6 +65,7 @@ export default {
   data() {
     return {
       isChoosingColor: false,
+      showMoreInfo: false,
       colorClass: '',
       readableDate: '',
     };
@@ -82,7 +101,8 @@ export default {
       };
       return readableDate.toLocaleDateString('en-GB', options);
     },
-    showInfo() {
+    toggleInfo() {
+      this.showMoreInfo = !this.showMoreInfo;
     },
     setIsPainting() {
       this.isChoosingColor = !this.isChoosingColor;

@@ -10,6 +10,9 @@
       </div>
     </section>
   </main>
+  <footer>
+    <div class="footer__copyright">Copyright © 2016 Modify. All rights reserved.</div>
+  </footer>
 </template>
 
 <script>
@@ -37,11 +40,14 @@ export default {
 <style lang="scss">
 @import './styles/base.scss';
 @import './styles/main.scss';
+.app {
+  padding-bottom:48px;
+}
 
 .controls {
   color: #333;
   width: 100%;
-  height: 97vh;
+  min-height: 97vh;
   margin: 1em 0;
 }
 
@@ -52,9 +58,16 @@ export default {
   max-width: 1096px;
 }
 
+.footer__copyright {
+  margin: 0.5rem auto;
+  color: #fff;
+  position: relative;
+  max-width: 980px;
+}
+
 @media (min-width: 768px) {
   .controls {
-    height: 26.5em;
+    min-height: 26.5em;
   }
 }
 </style>

@@ -75,15 +75,18 @@
     border-bottom: 0;
   }
 
+  .day:hover {
+  }
+
   .day__name {
     flex: 0 0 5%;
     min-height: 5.5em;
   }
 
   .day__hours {
-    padding-top: 0.125em;
     flex: 1 1 auto;
     display: flex;
+    padding: 0;
     flex-direction: column;
     border-top: $timetableBorder;
     border-left: 0;
@@ -97,6 +100,10 @@
     display: flex;
     flex: 1 0 auto;
     border-right: $timetableBorder;
+  }
+
+  .hours__row:first-child {
+    padding-top: 0.125em;
   }
 
   .row__hour {
