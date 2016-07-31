@@ -19,10 +19,10 @@
       <tr v-if="modulesNum == 0 && !hasError" transition="table__row">
         <td colspan="6" class="table__intro">Click the button to add a module!</td>
       </tr>
-      <tr is="mod-info-row" v-for="module in userModules"
-          :module="module"
-          transition="table__module">
-      </tr>
+    </tbody>
+    <tbody is="mod-info-row" v-for="module in userModules"
+        :module="module"
+        transition="table__module">
     </tbody>
   </table>
 </template>

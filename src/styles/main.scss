@@ -5,7 +5,6 @@
  * 1. Change the default font family
  * 2. Correct the line height in all browsers.
  * 3. Prevent adjustments of font size after orientation changes in IE and iOS.
- * 4. Prevent scroll bar from affect width.
  */
 html {
   font-family: $fontFamily; /* 1 */
@@ -14,14 +13,17 @@ html {
   line-height: 1.4; /* 2 */
   -ms-text-size-adjust: 100%; /* 3 */
   -webkit-text-size-adjust: 100%;
-  overflow-y: scroll; /* 4 */
+  height: 100%;
 }
 
 /**
- * Remove the margin in all browsers
+ * 1. Remove the margin in all browsers
+ * 2. Make footer always stay at bottom
  */
 body {
-  margin: 0;
+  margin: 0; /* 1 */
+  min-height:100%; /* 2 */
+  position:relative;
 }
 
 
@@ -67,8 +69,10 @@ svg {
 }
 
 footer {
-  position: absolute;
-  width: 100%;
+  width:100%;
+  position:absolute;
+  bottom:0;
+  left:0;
   height: 48px;
   background: $footerColor;
 }
