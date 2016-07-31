@@ -67,7 +67,8 @@ export default {
 
 @media (min-width: 768px) {
   .controls {
-    min-height: 26.5em;
+    margin-bottom: 10em;
+    min-height: 17em;
   }
 }
 </style>

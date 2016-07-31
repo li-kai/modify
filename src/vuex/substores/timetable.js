@@ -4,8 +4,7 @@ import {
   ADD_ERROR,
   CHANGE_MODULE_COLOR,
   DELETE_MODULE,
-  ON_CHOOSING_LESSON,
-  ON_CHOSEN_LESSON,
+  ON_CLICK_LESSON,
   ON_CLICK_OUTSIDE,
 } from '../mutation-types';
 /*
@@ -79,33 +78,36 @@ const mutations = {
     state.userModules.$remove(module);
   },
   // user starts to pick lesson type
-  [ON_CHOOSING_LESSON](state, lesson) {
-    // get the reference to modules (Array.prototype.find not in IE)
-    let module;
-    for (let i = state.userModules.length - 1; i >= 0; i--) {
-      module = state.userModules[i];
-      if (module.ModuleCode === lesson.moduleCode) {
-        break;
+  [ON_CLICK_LESSON](state, lesson) {
+    // user wants to select another lesson
+    if (state.selectable.length === 0) {
+      let module;
+      // get the reference to modules (Array.prototype.find not in IE)
+      for (let i = state.userModules.length - 1; i >= 0; i--) {
+        module = state.userModules[i];
+        if (module.ModuleCode === lesson.moduleCode) {
+          break;
+        }
       }
-    }
 
-    // make selectable the list of lessons, make them ghosted
-    state.selectable = module.Timetable[lesson.lessonType];
-    state.selectable.forEach(lesson => {
-      lesson.displayStatus = GHOSTED;
-    });
-    // make initial selected lesson look different from others
-    lesson.displayStatus = INITIAL;
-    state.selected = lesson;
-  },
-  // user picked a lesson type
-  [ON_CHOSEN_LESSON](state, lesson) {
-    // user clicked on same lesson type
-    if (state.selected.moduleCode === lesson.moduleCode &&
-      state.selected.lessonType === lesson.lessonType) {
+      // make selectable the list of lessons, make them ghosted
+      state.selectable = module.Timetable[lesson.lessonType];
+      state.selectable.forEach(lesson => {
+        lesson.displayStatus = GHOSTED;
+      });
+      // make initial selected lesson look different from others
+      lesson.displayStatus = INITIAL;
       state.selected = lesson;
+
+    // user has picked a lesson
+    } else {
+      // user clicked on same lesson type
+      if (state.selected.moduleCode === lesson.moduleCode &&
+        state.selected.lessonType === lesson.lessonType) {
+        state.selected = lesson;
+      }
+      setSelected(state);
     }
-    setSelected(state);
   },
   // user clicked outside, put previously selected back
   [ON_CLICK_OUTSIDE](state) {

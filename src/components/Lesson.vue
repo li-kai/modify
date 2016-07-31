@@ -12,17 +12,16 @@
 
 <script>
 import {
-  onChoosingLesson,
-  onChosenLesson,
+  onClickLesson,
 } from '../vuex/actions';
-import { getSelectable } from '../vuex/getters';
+import { } from '../vuex/getters';
 export default {
 
   name: 'Lesson',
 
   vuex: {
-    actions: { onChoosingLesson, onChosenLesson },
-    getters: { getSelectable },
+    actions: { onClickLesson },
+    getters: { },
   },
 
   props: {
@@ -50,10 +49,8 @@ export default {
       this.isHorizontal = mediaQueryList.matches;
     },
     lessonClick() {
-      if (this.getSelectable.length !== 0) {
-        this.onChosenLesson(this.lesson);
-      } else {
-        this.onChoosingLesson(this.lesson);
+      if (this.lesson.displayStatus !== 'only') {
+        this.onClickLesson(this.lesson);
       }
     },
     highlightSame() {

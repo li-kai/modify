@@ -36,8 +36,7 @@ export const changeModuleColor = ({ dispatch }, module, colorHex) => {
   dispatch(types.CHANGE_MODULE_COLOR, module, colorHex);
 };
 
-export const onChoosingLesson = makeAction(types.ON_CHOOSING_LESSON);
-export const onChosenLesson = makeAction(types.ON_CHOSEN_LESSON);
+export const onClickLesson = makeAction(types.ON_CLICK_LESSON);
 export const onClickOutside = ({ dispatch }) => {
   dispatch(types.ON_CLICK_OUTSIDE);
 };

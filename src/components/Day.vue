@@ -23,6 +23,11 @@
   border-bottom: $timetableBorder;
 }
 
+.day--hoverable:hover {
+  background: #CFD8DC;
+  color: #fff;
+}
+
 // gradient on the first & last cells to hide the shadow
 .day:first-child, .day:last-child {
   background-repeat: no-repeat;
@@ -75,11 +80,6 @@
     flex: 0 0 auto;
     display: flex;
     border-bottom: 0;
-  }
-
-  .day--hoverable:hover {
-    background: #CFD8DC;
-    color: #fff;
   }
 
   .day__name {

@@ -63,7 +63,7 @@ export default {
     getters: {
       isActive: getSearchStatus,
       listOfModules: getAllModules,
-      getUserModules,
+      userModules: getUserModules,
       hasError: getAllModulesResponse,
     },
   },
@@ -148,6 +148,9 @@ export default {
         this.pointer = 0;
       }
     },
+    userHasIt(code) {
+      return this.userModules.some(module => module.ModuleCode === code);
+    },
     queryText(value, search) {
       value = value.toUpperCase();
       // e.g. 'chem' would return true for 'chem 101' and 'intro to chem'
@@ -172,12 +175,17 @@ export default {
       for (let i = arrayOfKeys.length - 1; i >= 0; i--) {
         const code = arrayOfKeys[i];
         const name = listOfModules[code];
-        if (this.queryCode(code, search)) {
-          const module = { code, name };
-          codeMatches.push(module);
-        } else if (this.queryText(name, search)) {
-          const module = { code, name };
-          nameMatches.push(module);
+        // user doesn't have it yet
+        if (!this.userHasIt(code)) {
+          // either code matches
+          if (this.queryCode(code, search)) {
+            const module = { code, name };
+            codeMatches.push(module);
+          // or text matches
+          } else if (this.queryText(name, search)) {
+            const module = { code, name };
+            nameMatches.push(module);
+          }
         }
       }
 

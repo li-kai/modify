@@ -57,9 +57,6 @@ export default {
       }
       return false;
     },
-    isPlanning() {
-      return this.getSelectable.length !== 0;
-    },
     /* only display relevant hours */
     filteredTimings() {
       const numOfSchoolHours = this.isExpanded ? 17 : 13;
@@ -87,7 +84,7 @@ export default {
       return [className, this.isExpanded ? expandedName : ''];
     },
     toggleHover() {
-      return this.isPlanning ? 'day--hoverable' : '';
+      return this.getSelectable.length !== 0 ? 'day--hoverable' : '';
     },
   },
 };
