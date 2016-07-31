@@ -254,12 +254,8 @@ export default {
   transition: all 0.3s $bezierStandardCurve;
 }
 
-.module__more-info-enter {
+.module__more-info-enter, .module__more-info-leave {
   opacity: 0;
-  transform: translateY(-3em);
-}
-
-.module__more-info-leave {
-  opacity: 0;
+  transform: translate(9em, -3em) scale(0.7, 0.5);
 }
 </style>
