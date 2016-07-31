@@ -175,8 +175,8 @@ export default {
 }
 
 .lesson--initial {
-  filter: grayscale(20%);
-  font-style: oblique;
+  filter: grayscale(30%);
+  font-style: italic;
 }
 
 @media (min-width: 1280px) {

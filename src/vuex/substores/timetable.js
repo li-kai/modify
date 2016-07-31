@@ -78,33 +78,37 @@ const mutations = {
     state.userModules.$remove(module);
   },
   // user starts to pick lesson type
-  [ON_CLICK_LESSON](state, lesson) {
+  [ON_CLICK_LESSON](state, selectedLesson) {
     // user wants to select another lesson
     if (state.selectable.length === 0) {
       let module;
       // get the reference to modules (Array.prototype.find not in IE)
       for (let i = state.userModules.length - 1; i >= 0; i--) {
         module = state.userModules[i];
-        if (module.ModuleCode === lesson.moduleCode) {
+        if (module.ModuleCode === selectedLesson.moduleCode) {
           break;
         }
       }
 
       // make selectable the list of lessons, make them ghosted
-      state.selectable = module.Timetable[lesson.lessonType];
-      state.selectable.forEach(lesson => {
-        lesson.displayStatus = GHOSTED;
-      });
-      // make initial selected lesson look different from others
-      lesson.displayStatus = INITIAL;
-      state.selected = lesson;
+      state.selectable = module.Timetable[selectedLesson.lessonType];
+      for (let i = state.selectable.length - 1; i >= 0; i--) {
+        const lesson = state.selectable[i];
+        // make initial selected lesson look different from others
+        if (lesson.classNo === selectedLesson.classNo) {
+          lesson.displayStatus = INITIAL;
+        } else {
+          lesson.displayStatus = GHOSTED;
+        }
+      }
+      state.selected = selectedLesson;
 
     // user has picked a lesson
     } else {
       // user clicked on same lesson type
-      if (state.selected.moduleCode === lesson.moduleCode &&
-        state.selected.lessonType === lesson.lessonType) {
-        state.selected = lesson;
+      if (state.selected.moduleCode === selectedLesson.moduleCode &&
+        state.selected.lessonType === selectedLesson.lessonType) {
+        state.selected = selectedLesson;
       }
       setSelected(state);
     }
