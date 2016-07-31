@@ -27,7 +27,7 @@
       </td>
     </tr>
     <tr class="module__more-info" v-show="showMoreInfo" transition="module__more-info">
-      <td class="more-info__col" colspan="3">
+      <td class="more-info__col more-info__description" colspan="3">
         <h4 class="more-info__header">Description:</h4>
         <p>{{ module.ModuleDescription }}</p>
       </td>
@@ -174,7 +174,11 @@ export default {
 }
 
 .more-info__col {
-  padding: 0 1em 0 1em;
+  padding: 0 1em 0 0;
+}
+
+.more-info__description {
+  padding-left: 1em;
 }
 
 .more-info__header {
