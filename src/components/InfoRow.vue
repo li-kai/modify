@@ -1,6 +1,6 @@
 <template>
-  <tbody>
-    <tr class="table__module">
+  <tbody class="table__body">
+    <tr class="body__module" :class="toggleClass(!showMoreInfo, 'body__module')">
       <td class="module__color">
         <div class="color__shape" :class="colorClass"></div>
       </td>
@@ -8,15 +8,18 @@
       <td class="module__title">{{ module.ModuleTitle }}</td>
       <td class="module__credit">{{ module.ModuleCredit }}</td>
       <td class="module__exam" >{{ readableDate }}</td>
-      <td class="module__action">
+      <td class="module__action" :class="toggleClass(!showMoreInfo, 'module__action')">
         <button class="action__button" @click="deleteModule(module)">
           <svg><use xlink:href="#delete"/></svg>
         </button>
-        <button class="action__button" :class="toggleClass(isChoosingColor)"
-            @click="setIsPainting()">
+        <button class="action__button"
+            @click="setIsPainting()"
+            :class="toggleClass(isChoosingColor, 'action__button')">
           <svg><use xlink:href="#paint"/></svg>
         </button>
-        <button class="action__button" @click="toggleInfo()" :class="toggleClass(showMoreInfo)">
+        <button class="action__button"
+            @click="toggleInfo()"
+            :class="toggleClass(showMoreInfo, 'action__button')">
           <svg><use xlink:href="#info"/></svg>
         </button>
         <mod-change-color @click="setIsPainting()"
@@ -24,20 +27,21 @@
       </td>
     </tr>
     <tr class="module__more-info" v-show="showMoreInfo" transition="module__more-info">
-      <td class="module__description" colspan="3">
+      <td class="more-info__col" colspan="3">
         <h4 class="more-info__header">Description:</h4>
         <p>{{ module.ModuleDescription }}</p>
       </td>
-      <td class="module__credit">
+      <td class="more-info__col">
         <h4 class="more-info__header">Workload:</h4>
         <p>{{ module.Workload }}</p>
+        <p v-if="!module.Workload">Not listed</p>
       </td>
-      <td class="more-info__pre">
+      <td class="more-info__col">
         <h4 class="more-info__header">Prerequisite:</h4>
         <p>{{ module.Prerequisite }}</p>
         <p v-if="!module.Prerequisite">None</p>
       </td>
-      <td class="more-info__pre">
+      <td class="more-info__col">
         <h4 class="more-info__header">Preclusion:</h4>
         <p>{{ module.Preclusion }}</p>
         <p v-if="!module.Preclusion">None</p>
@@ -111,8 +115,8 @@ export default {
     setIsPainting() {
       this.isChoosingColor = !this.isChoosingColor;
     },
-    toggleClass(bool) {
-      return bool ? 'action__button--activated' : '';
+    toggleClass(bool, cssClass) {
+      return bool ? `${cssClass}--activated` : '';
     },
   },
 };
@@ -121,12 +125,12 @@ export default {
 <style lang="scss">
 @import '../styles/base.scss';
 
-.table__module {
+.body__module {
   height: 3em;
 }
 
 .module__action {
-  position: relative;
+  // position: relative;
   display: flex;
   justify-content: space-around;
   padding: 0;
@@ -165,10 +169,11 @@ export default {
 .module__more-info {
   vertical-align: top;
   background: #E5E5E5;
+  color: #2A2A2A;
   box-shadow: $materialBoxShadow;
 }
 
-.module__description {
+.more-info__col {
   padding: 0 1em 0 1em;
 }
 
@@ -177,19 +182,27 @@ export default {
   margin: 1em 0 -0.7em;
 }
 
-.more-info__pre {
-  padding: 0 1em 0 0;
+.col__description {
 }
 
 @media (max-width: 767px) {
-  .table__module {
-    box-shadow: $materialBoxShadow;
+  .table__body {
+    display:inline-block;
     position: relative;
+    margin: 1em 0;
+  }
+
+  .body__module {
+    box-shadow: none;
     display: flex;
     flex-direction: column;
-    margin: 1em 0;
     height: auto;
-    padding: 0 1rem;
+    padding: 0 1em;
+  }
+
+  .body__module--activated {
+    position: relative;
+    box-shadow: $materialBoxShadow;
   }
 
   .module__color {
@@ -215,7 +228,6 @@ export default {
 
   .module__credit,
   .module__exam {
-    color: #555;
     font-size: 0.875em;
   }
 
@@ -236,6 +248,32 @@ export default {
     display: flex;
     margin: 0;
     height: 3em;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .module__action--activated {
+    border-bottom: 0;
+  }
+
+  .module__more-info {
+    background: transparent;
+  }
+
+  .more-info__header {
+    font-size: 1rem;
+    margin: 0.5em 0 -0.7em;
+  }
+
+  .more-info__col {
+    display: inline-block;
+    float: left;
+    padding: 0 1em 0 1rem;
+    font-size: 0.875em;
+  }
+
+  .module__more-info-enter, .module__more-info-leave {
+    opacity: 0;
+    transform: translate(9em, -3em) scale(0.7, 0.5);
   }
 }
 
@@ -256,6 +294,7 @@ export default {
 
 .module__more-info-enter, .module__more-info-leave {
   opacity: 0;
-  transform: translate(9em, -3em) scale(0.7, 0.5);
+  transform: translate(0, -7em) scale(0.7, 0.5);
 }
+
 </style>
