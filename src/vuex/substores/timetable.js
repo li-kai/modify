@@ -80,7 +80,7 @@ const mutations = {
   },
   // user starts to pick lesson type
   [ON_CHOOSING_LESSON](state, lesson) {
-    // get the reference to modules
+    // get the reference to modules (Array.prototype.find not in IE)
     let module;
     for (let i = state.userModules.length - 1; i >= 0; i--) {
       module = state.userModules[i];

@@ -103,7 +103,7 @@
     border-left: $timetableBorder;
     padding-left: 0;
     height: auto;
-    flex: 1 0 0px;  // ie fix
+    flex: 1 0 0%;  // ie fix
     border-top: 0;
   }
 }

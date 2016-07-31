@@ -163,7 +163,7 @@ export default {
   }
 
   .timings__hour {
-    flex: 1 0 0;
+    flex: 1 0 0%;
     text-align: right;
     height: 3em;
     line-height: 4.5em;
