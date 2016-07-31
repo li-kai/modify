@@ -130,7 +130,7 @@ export default {
 }
 
 .module__action {
-  // position: relative;
+  position: relative;
   display: flex;
   justify-content: space-around;
   padding: 0;
@@ -180,9 +180,6 @@ export default {
 .more-info__header {
   font-weight: 600;
   margin: 1em 0 -0.7em;
-}
-
-.col__description {
 }
 
 @media (max-width: 767px) {
