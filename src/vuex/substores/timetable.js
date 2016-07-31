@@ -220,7 +220,7 @@ function createLesson(data, moduleCode) {
   lesson.dayText = lesson.dayText.slice(0, 3).toLowerCase();
 
   // set uid for tracking
-  lesson.uid = lesson.lessonType + moduleCode + lesson.venue;
+  lesson.uid = moduleCode + lesson.lessonType + lesson.classNo + lesson.venue;
 
   // these properties no longer change, so Vue will optimize
   /*

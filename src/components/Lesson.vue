@@ -66,11 +66,11 @@ export default {
       }
     },
     setClass() {
-      this.lessonIdentifier = `lesson__${this.lesson.moduleCode}${this.lesson.classNo}`;
+      this.lessonIdentifier = this.lesson.uid.slice(0, -this.lesson.venue.length);
       return [
         `module__${this.lesson.moduleCode}`,
-        this.lessonIdentifier,
         `lesson--${this.lesson.displayStatus}`,
+        this.lessonIdentifier,
       ];
     },
     setStyle() {
