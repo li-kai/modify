@@ -78,14 +78,18 @@ const mutations = {
     }
     state.userModules.$remove(module);
   },
+  // user starts to pick lesson type
   [ON_CHOOSING_LESSON](state, lesson) {
-    // user starts to pick lesson type
-    // make all lesson types ghosted to be selectable
-
     // get the reference to modules
-    const module = state.userModules.find(module => module.ModuleCode === lesson.moduleCode);
+    let module;
+    for (let i = state.userModules.length - 1; i >= 0; i--) {
+      module = state.userModules[i];
+      if (module.ModuleCode === lesson.moduleCode) {
+        break;
+      }
+    }
 
-    // make selectable the list of lessons
+    // make selectable the list of lessons, make them ghosted
     state.selectable = module.Timetable[lesson.lessonType];
     state.selectable.forEach(lesson => {
       lesson.displayStatus = GHOSTED;
@@ -94,6 +98,7 @@ const mutations = {
     lesson.displayStatus = INITIAL;
     state.selected = lesson;
   },
+  // user picked a lesson type
   [ON_CHOSEN_LESSON](state, lesson) {
     // user clicked on same lesson type
     if (state.selected.moduleCode === lesson.moduleCode &&

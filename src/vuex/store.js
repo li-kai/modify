@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createLogger from 'vuex/logger';
 
 import timetable from './substores/timetable';
 import search from './substores/search';
@@ -16,6 +17,6 @@ export default new Vuex.Store({
     timetable,
     search,
   },
-  plugins: plugin,
+  plugins: [plugin, createLogger()],
   strict: process.env.NODE_ENV !== 'production',
 });

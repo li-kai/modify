@@ -33,15 +33,14 @@ td {
   margin: 0;
 }
 
-button,
-input,
-optgroup,
-select,
-textarea {
-  font: inherit; /* 1 */
-  margin: 0; /* 2 */
+button {
+  padding: 0;
 }
 
+input {
+  // follow chrome default styling
+  border: 1px solid #a9a9a9;
+}
 
 .hidden {
   display: none;

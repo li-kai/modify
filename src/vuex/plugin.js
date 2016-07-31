@@ -19,4 +19,4 @@ const localForagePlugin = store => {
   });
 };
 
-export default [localForagePlugin];
+export default localForagePlugin;

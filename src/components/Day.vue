@@ -70,7 +70,7 @@
 
 @media (min-width: 1280px) {
   .day {
-    flex: 0 0 100%;
+    flex: 0 0 auto;
     display: flex;
     border-bottom: 0;
   }
@@ -103,7 +103,7 @@
     border-left: $timetableBorder;
     padding-left: 0;
     height: auto;
-    flex: 1 0 0;
+    flex: 1 0 0px;  // ie fix
     border-top: 0;
   }
 }

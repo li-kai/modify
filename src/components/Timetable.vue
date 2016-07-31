@@ -170,7 +170,7 @@ export default {
   }
 
   .week {
-    flex: 0 0 90%;
+    flex: 0 0 auto;
     flex-direction: column;
   }
 }

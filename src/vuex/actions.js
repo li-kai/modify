@@ -4,8 +4,7 @@ import * as types from './mutation-types';
 export const retrieveAllModules = ({ dispatch }) => {
   api.getAllModules().then(response => {
     dispatch(types.RETRIEVE_ALL_MODULES, response);
-  }).catch(err => {
-    console.error(err);
+  }).catch(() => {
     dispatch(types.RETRIEVE_ALL_ERROR);
   });
 };
@@ -13,8 +12,7 @@ export const retrieveAllModules = ({ dispatch }) => {
 export const attachUserModules = ({ dispatch }) => {
   api.getUserModules().then(response => {
     dispatch(types.ATTACH_USER_MODULES, response);
-  }).catch(err => {
-    console.error(err);
+  }).catch(() => {
     dispatch(types.RETRIEVE_ALL_ERROR);
   });
 };
@@ -22,8 +20,7 @@ export const attachUserModules = ({ dispatch }) => {
 export const addModule = ({ dispatch }, moduleCode) => {
   api.getModule(moduleCode).then(response => {
     dispatch(types.ADD_MODULE, response);
-  }).catch(err => {
-    console.error(err);
+  }).catch(() => {
     dispatch(types.ADD_ERROR);
   });
 };

@@ -15,6 +15,7 @@
               transition="bar__input"
               v-el:input="v-el:input"
               v-model="query"
+              debounce="125"
               @focus="hasFocus = true"
               @input="pointerReset()"
               @keydown="keydown"/>
@@ -148,13 +149,19 @@ export default {
       }
     },
     queryText(value, search) {
-      return value.toUpperCase().startsWith(search);
+      value = value.toUpperCase();
+      // e.g. 'chem' would return true for 'chem 101' and 'intro to chem'
+      // but not 'biochem'
+      return value.indexOf(search) === 0 || value.indexOf(` ${search}`) > 0;
     },
-    queryNumber(value, search) {
+    queryCode(value, search) {
+      // search not pure numbers
+      if (isNaN(parseInt(search, 10))) {
+        return value.indexOf(search) === 0;
       // search starts with numbers, so strip all non numerics
       // and compare if search matches
-      return !isNaN(parseInt(search, 10)) &&
-        value.replace(/\D/g, '').toUpperCase().startsWith(search);
+      }
+      return value.replace(/\D/g, '').indexOf(search) === 0;
     },
     querySearch(listOfModules, search) {
       search = search.toUpperCase();
@@ -165,7 +172,7 @@ export default {
       for (let i = arrayOfKeys.length - 1; i >= 0; i--) {
         const code = arrayOfKeys[i];
         const name = listOfModules[code];
-        if (this.queryNumber(code, search) || this.queryText(code, search)) {
+        if (this.queryCode(code, search)) {
           const module = { code, name };
           codeMatches.push(module);
         } else if (this.queryText(name, search)) {
