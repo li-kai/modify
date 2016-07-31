@@ -105,7 +105,7 @@ export default {
     setSize(style, size) {
       if (this.isHorizontal) {
         // subpixel rounding :/
-        style.width = `${size * 100.67}%`;
+        style.width = `${size * 100.5}%`;
       } else {
         style.height = `${size * 100}%`;
       }

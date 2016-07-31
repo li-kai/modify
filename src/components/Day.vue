@@ -19,6 +19,7 @@
 .day {
   box-sizing: border-box;
   flex: 0 0 33.33%;
+  color: #E0E0E0;
   border-bottom: $timetableBorder;
 }
 
@@ -38,6 +39,7 @@
 }
 
 .day__name {
+  color: #333;
   text-transform: capitalize;
   display: flex;
   justify-content: center;
@@ -76,6 +78,8 @@
   }
 
   .day:hover {
+    background: #CFD8DC;
+    color: #fff;
   }
 
   .day__name {
@@ -102,7 +106,8 @@
     border-right: $timetableBorder;
   }
 
-  .hours__row:first-child {
+  // selector ouch, but no choice
+  .hours__row:first-child .row__hour {
     padding-top: 0.125em;
   }
 
