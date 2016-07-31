@@ -144,7 +144,7 @@ export default {
 }
 
 .lesson--selected:hover:after {
-  opacity: 1 !important;
+  opacity: 1;
 }
 
 // box shadow optimisation for 60 fps
@@ -160,9 +160,9 @@ export default {
   opacity: 0;
 }
 
-.lesson--highlight {
+.lesson.lesson--highlight {
   transform: scale(1.05);
-  opacity: 1 !important;
+  opacity: 1;
 }
 
 .lesson--only {
@@ -175,7 +175,8 @@ export default {
 }
 
 .lesson--initial {
-  outline: 1px solid #333;
+  filter: grayscale(20%);
+  font-style: oblique;
 }
 
 @media (min-width: 1280px) {

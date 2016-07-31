@@ -12,31 +12,35 @@
         <button class="action__button" @click="deleteModule(module)">
           <svg><use xlink:href="#delete"/></svg>
         </button>
-        <button class="action__button" :class="setPaintClass()"
+        <button class="action__button" :class="toggleClass(isChoosingColor)"
             @click="setIsPainting()">
           <svg><use xlink:href="#paint"/></svg>
         </button>
-        <button class="action__button" @click="toggleInfo()">
+        <button class="action__button" @click="toggleInfo()" :class="toggleClass(showMoreInfo)">
           <svg><use xlink:href="#info"/></svg>
         </button>
         <mod-change-color @click="setIsPainting()"
         v-if="isChoosingColor" :module="module" transition="color"></mod-change-color>
       </td>
     </tr>
-    <tr class="module__more-info" v-show="showMoreInfo" transition="table__module">
-      <td></td>
-      <td class="module__description" colspan="2">
-        {{ module.ModuleDescription }}
+    <tr class="module__more-info" v-show="showMoreInfo" transition="module__more-info">
+      <td class="module__description" colspan="3">
+        <h4 class="more-info__header">Description:</h4>
+        <p>{{ module.ModuleDescription }}</p>
       </td>
       <td class="module__credit">
-        {{ module.Department }}
-        {{ module.Workload }}
+        <h4 class="more-info__header">Workload:</h4>
+        <p>{{ module.Workload }}</p>
       </td>
-      <td class="module__prerequisite" v-if="module.Prerequisite">
-        {{ module.Prerequisite }}
+      <td class="more-info__pre">
+        <h4 class="more-info__header">Prerequisite:</h4>
+        <p>{{ module.Prerequisite }}</p>
+        <p v-if="!module.Prerequisite">None</p>
       </td>
-      <td class="module__code" v-if="module.Preclusion">
-        {{ module.Preclusion }}
+      <td class="more-info__pre">
+        <h4 class="more-info__header">Preclusion:</h4>
+        <p>{{ module.Preclusion }}</p>
+        <p v-if="!module.Preclusion">None</p>
       </td>
     </tr>
   </tbody>
@@ -107,8 +111,8 @@ export default {
     setIsPainting() {
       this.isChoosingColor = !this.isChoosingColor;
     },
-    setPaintClass() {
-      return this.isChoosingColor ? 'action__button--activated' : '';
+    toggleClass(bool) {
+      return bool ? 'action__button--activated' : '';
     },
   },
 };
@@ -146,7 +150,7 @@ export default {
 }
 
 .action__button--activated {
-  background-color: rgba(0, 0, 0, 0.12);
+  background-color: $hoverColor;
 }
 
 .action__button:focus {
@@ -154,8 +158,27 @@ export default {
 }
 
 .action__button:hover {
-  background-color: rgba(0, 0, 0, 0.12);
+  background-color: $hoverColor;
   cursor: pointer;
+}
+
+.module__more-info {
+  vertical-align: top;
+  background: #E5E5E5;
+  box-shadow: $materialBoxShadow;
+}
+
+.module__description {
+  padding: 0 1em 0 1em;
+}
+
+.more-info__header {
+  font-weight: 600;
+  margin: 1em 0 -0.7em;
+}
+
+.more-info__pre {
+  padding: 0 1em 0 0;
 }
 
 @media (max-width: 767px) {
@@ -223,6 +246,20 @@ export default {
 
 .color-enter, .color-leave {
   transform: translateY(-1em);
+  opacity: 0;
+}
+
+.module__more-info-transition {
+  opacity: 1;
+  transition: all 0.3s $bezierStandardCurve;
+}
+
+.module__more-info-enter {
+  opacity: 0;
+  transform: translateY(-3em);
+}
+
+.module__more-info-leave {
   opacity: 0;
 }
 </style>

@@ -19,7 +19,7 @@
 .day {
   box-sizing: border-box;
   flex: 0 0 33.33%;
-  color: #E0E0E0;
+  color: $hoverColor;
   border-bottom: $timetableBorder;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .day--hoverable:hover .day__name {
-  background: #E0E0E0;
+  background: $hoverColor;
 }
 
 // gradient on the first & last cells to hide the shadow
