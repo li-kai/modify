@@ -274,7 +274,7 @@ export default {
 
   .module__more-info-enter, .module__more-info-leave {
     opacity: 0;
-    transform: translate(9em, -3em) scale(0.7, 0.5);
+    transform: translate(0, -7em) scale(0.7, 0.5);
   }
 }
 
@@ -295,7 +295,6 @@ export default {
 
 .module__more-info-enter, .module__more-info-leave {
   opacity: 0;
-  transform: translate(0, -7em) scale(0.7, 0.5);
+  transform: translate(9em, -3em) scale(0.7, 0.5);
 }
-
 </style>
