@@ -24,8 +24,13 @@
 }
 
 .day--hoverable:hover {
-  background: #CFD8DC;
-  color: #fff;
+  background: #E5E5E5;
+  color: #BFBFBF;
+  z-index: 99;
+}
+
+.day--hoverable:hover .day__name {
+  background: #E0E0E0;
 }
 
 // gradient on the first & last cells to hide the shadow
@@ -92,18 +97,18 @@
     display: flex;
     padding: 0;
     flex-direction: column;
-    border-top: $timetableBorder;
-    border-left: 0;
+    border: $timetableBorder;
+    border-right: 0;
+    margin-bottom: -1px;
   }
 
   .day:last-child .day__hours {
-    border-bottom: $timetableBorder;
+    margin-bottom: 0;
   }
 
   .hours__row {
     display: flex;
     flex: 1 0 auto;
-    border-right: $timetableBorder;
   }
 
   // selector ouch, but no choice
@@ -112,7 +117,7 @@
   }
 
   .row__hour {
-    border-left: $timetableBorder;
+    border-right: $timetableBorder;
     padding-left: 0;
     height: auto;
     flex: 1 0 0%;  // ie fix
