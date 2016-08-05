@@ -96,20 +96,18 @@ export default {
 .timetable {
   width: 100%;
   margin: auto;
-  display: flex;
-  justify-content: center;
 }
 
 .timings {
+  float: left;
+  width: 3em;
   margin: 2.2em 0 0 0;
-  flex: 0 0 3em;
 }
 
 .timings__hour {
   text-align: center;
   white-space: nowrap;
   height: 5em;
-  //border: 1px dotted red;
 }
 
 .timings__hour small {
@@ -121,10 +119,10 @@ export default {
 }
 
 .week {
-  flex: 1 1 auto;
+  width: calc(100% - 3em);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  display: inherit;
+  display: flex;
   // scrolling shadows
   background: radial-gradient(ellipse at left, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 0 center, radial-gradient(ellipse at right, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 100% center;
   background-size: 10px 125%, 10px 125%;
@@ -152,6 +150,7 @@ export default {
   }
 
   .timings {
+    float: none;
     position: relative;
     left: -1.2%;
     width: 102.2%;
@@ -173,7 +172,7 @@ export default {
   }
 
   .week {
-    flex: 0 0 auto;
+    width: 100%;
     flex-direction: column;
   }
 }

@@ -18,7 +18,8 @@
 
 .day {
   box-sizing: border-box;
-  flex: 0 0 33.33%;
+  flex: 1 0 auto;
+  min-width: 33.33%;
   color: $hoverColor;
   border-bottom: $timetableBorder;
 }
@@ -76,7 +77,7 @@
 
 @media (min-width: 768px) {
   .day {
-    flex-basis: 20%;  // show all 5 days
+    min-width: 20%;  // show all 5 days
   }
 }
 
