@@ -15,7 +15,7 @@
               transition="bar__input"
               v-el:input="v-el:input"
               v-model="query"
-              debounce="125"
+              debounce="75"
               @focus="hasFocus = true"
               @input="pointerReset()"
               @keydown="keydown"/>
@@ -281,8 +281,8 @@ $searchInputHeight: 3rem;
 
 .search__add {
   transition: all 0.225s $bezierStandardCurve;
-  flex: 0 0 $searchInputHeight;
-  height: $searchInputHeight;
+  flex: 0 0 ($searchInputHeight + 0.5);
+  height: ($searchInputHeight + 0.5);
   border: 0;
   line-height: 0;
   background: #E84664;
@@ -331,12 +331,18 @@ $searchInputHeight: 3rem;
   }
 
   .search__label {
+    top: -0.1rem;
     left: 1.03rem;
   }
 
   .search__bar {
     flex: 1 1 auto;
     order: 0;
+  }
+
+  .search__add {
+    flex: 0 0 $searchInputHeight;
+    height: $searchInputHeight;
   }
 
   .search__add:hover {
