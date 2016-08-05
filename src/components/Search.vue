@@ -201,19 +201,20 @@ export default {
 <style lang="scss">
 @import '../styles/base.scss';
 
+$searchInputHeight: 3rem;
+
 .search {
   position: relative;
   height: 8em;
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  justify-content: space-between;
 }
 
 .search__header {
   font-size: 2rem;
   transition: all 0.225s $bezierStandardCurve;
-  margin: 1rem 1rem 1rem 0;
+  margin: 0.5rem 0 0 0;
   flex: 1 0 auto;
 }
 
@@ -227,7 +228,7 @@ export default {
   font-size: 2em;
   font-weight: bold;
   left: 0.03rem;
-  top: -0.1rem;
+  top: -0.5rem;
 }
 
 .search__bar {
@@ -242,7 +243,7 @@ export default {
   padding: 5px 9px;
   box-sizing: border-box;
   width: 100%;
-  height: 45px;
+  height: $searchInputHeight;
   border-radius: 0;
 }
 
@@ -251,6 +252,7 @@ export default {
 }
 
 .bar__list {
+  -webkit-overflow-scrolling: touch;
   position: absolute;
   margin-top: -1px;
   background: #FFF;
@@ -279,8 +281,8 @@ export default {
 
 .search__add {
   transition: all 0.225s $bezierStandardCurve;
-  flex: 0 0 45px;
-  height: 45px;
+  flex: 0 0 $searchInputHeight;
+  height: $searchInputHeight;
   border: 0;
   line-height: 0;
   background: #E84664;
@@ -322,17 +324,21 @@ export default {
     align-items: center;
     height: auto;
   }
+
   .search__header {
-    margin-left: 1rem;
+    margin: 1rem;
     flex: 0 0 auto;
   }
+
   .search__label {
     left: 1.03rem;
   }
+
   .search__bar {
     flex: 1 1 auto;
     order: 0;
   }
+
   .search__add:hover {
     background: #DB425F;
   }
