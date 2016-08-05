@@ -126,8 +126,7 @@ export default {
   -webkit-overflow-scrolling: touch;
   display: inherit;
   // scrolling shadows
-  background: radial-gradient(left, ellipse, rgba(0,0,0, .2) 0%, rgba(0,0,0, 0) 75%) 0 center,
-              radial-gradient(right, ellipse, rgba(0,0,0, .2) 0%, rgba(0,0,0, 0) 75%) 100% center;
+  background: radial-gradient(ellipse at left, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 0 center, radial-gradient(ellipse at right, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 75%) 100% center;
   background-size: 10px 125%, 10px 125%;
   background-attachment: scroll, scroll;
   background-repeat: no-repeat;
