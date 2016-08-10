@@ -13,6 +13,7 @@ Modify uses the following to work:
 * [Vue.js] - javascript framework
 * [Localforage] - client side storage
 * [Webpack] - build system and module bundler
+
 ##### Back-end
 * [node.js] - back-end server language
 * [Express] - node.js network app framework
