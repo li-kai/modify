@@ -15,11 +15,7 @@ Modify uses the following to work:
 * [Webpack] - build system and module bundler
 
 ##### Back-end
-* [node.js] - back-end server language
-* [Express] - node.js network app framework
-* [Nginx] - reverse proxy
-* [Scrapy] - spider for scraping info
-* [PostgreSQL] - database
+* See [Modify-api]
 
 ### Installation
 
@@ -82,8 +78,5 @@ Copyright (c) 2016- Li Kai
    [Vue.js]: <https://vuejs.org/>
    [Localforage]: <https://github.com/localForage/localForage>
    [Webpack]: <https://webpack.github.io/>
-   [node.js]: <http://nodejs.org>
-   [Nginx]: <https://www.nginx.com/>
-   [Scrapy]: <http://scrapy.org/>
-   [PostgreSQL]: <https://www.postgresql.org/>
-   [express]: <http://expressjs.com>
+   [node.js]: <https://nodejs.org>
+   [Modify-api]: <https://github.com/li-kai/modify-api>
