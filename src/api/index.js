@@ -16,19 +16,20 @@ function getFromForage(key, apiCall) {
   return localforage.getItem(key).then((value) => {
     if (value) {
       const differenceInSeconds = (new Date() - value.date) / 1000;
-      // one day
+      // cache for one day
       if (Math.abs(differenceInSeconds) < 86400) {
         return Promise.resolve(value.data);
       }
     }
-    return apiCall.then((value) => {
-      value.data = JSON.parse(value.data);
+    return apiCall.then((response) => {
+      const data = response.json();
       const object = {
-        data: value.data,
+        data,
         date: new Date(),
       };
+      // save to local forage with date
       localforage.setItem(key, object);
-      return value.data;
+      return data;
     });
   });
 }

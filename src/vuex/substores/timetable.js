@@ -51,6 +51,8 @@ const mutations = {
   },
   [ADD_MODULE](state, module) {
     state.retrieveError = false;
+
+    // change all snake_case keys to camelCase ones
     const camelCaseModule = {};
     Object.keys(module).forEach((key) => {
       camelCaseModule[snakeCaseToCamelCase(key)] = module[key];
