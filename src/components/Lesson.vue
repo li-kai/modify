@@ -185,10 +185,6 @@ export default {
     padding: 0.125em 0.25em 0.3em 0.25em;
     margin-top: 1px;
   }
-
-  .lesson__code, .lesson__type, .lesson__venue, .lesson__week {
-    color: #333;
-  }
 }
 
 </style>

@@ -57,7 +57,7 @@ const mutations = {
     });
 
     state.userModules.push(camelCaseModule);
-    if (Object.prototype.hasOwnProperty.call(camelCaseModule, 'timetable')) {
+    if (camelCaseModule.timetable) {
       allocateLessons(state, camelCaseModule);
       sortByLengthDescending(state.week);
     }
