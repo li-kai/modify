@@ -13,120 +13,6 @@
   </li>
 </template>
 
-<style lang="scss">
-@import '../styles/base.scss';
-
-.day {
-  box-sizing: border-box;
-  flex: 1 0 auto;
-  min-width: 33.33%;
-  color: $hoverColor;
-  border-bottom: $timetableBorder;
-}
-
-.day--hoverable:hover {
-  background: #E5E5E5;
-  color: #BFBFBF;
-  z-index: 99;
-}
-
-.day--hoverable:hover .day__name {
-  background: $hoverColor;
-}
-
-// gradient on the first & last cells to hide the shadow
-.day:first-child, .day:last-child {
-  background-repeat: no-repeat;
-  background-size: 20px 100%;
-}
-
-.day:first-child {
-  background-image: linear-gradient(to right, rgba(255,255,255, 1) 50%, rgba(255,255,255, 0) 100%);
-}
-
-.day:last-child {
-  background-image: linear-gradient(to left, rgba(255,255,255, 1) 50%, rgba(255,255,255, 0) 100%);
-  background-position: 100% 0;
-}
-
-.day__name {
-  color: #333;
-  text-transform: capitalize;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 3em;
-}
-
-.day__hours {
-  display: flex;
-  padding-left: 2px;
-  border-left: $timetableBorder;
-}
-
-.hours__row {
-  margin-left: 1px;
-  flex: 1 1 auto;
-}
-
-.row__hour {
-  box-sizing: border-box;
-  border-top: $timetableBorder;
-  height: 5em;
-}
-
-@media (min-width: 768px) {
-  .day {
-    min-width: 20%;  // show all 5 days
-  }
-}
-
-@media (min-width: 1280px) {
-  .day {
-    flex: 0 0 auto;
-    display: flex;
-    border-bottom: 0;
-  }
-
-  .day__name {
-    flex: 0 0 5%;
-    min-height: 5.5em;
-  }
-
-  .day__hours {
-    flex: 1 1 auto;
-    display: flex;
-    padding: 0;
-    flex-direction: column;
-    border: $timetableBorder;
-    border-right: 0;
-    margin-bottom: -1px;
-  }
-
-  .day:last-child .day__hours {
-    margin-bottom: 0;
-  }
-
-  .hours__row {
-    display: flex;
-    flex: 1 0 auto;
-  }
-
-  // selector ouch, but no choice
-  .hours__row:first-child .row__hour {
-    padding-top: 0.125em;
-  }
-
-  .row__hour {
-    border-right: $timetableBorder;
-    padding-left: 0;
-    height: auto;
-    flex: 1 0 0%;  // ie fix
-    border-top: 0;
-  }
-}
-</style>
-
 <script>
 import ModLesson from './Lesson';
 import { } from '../vuex/actions';
@@ -242,3 +128,117 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+@import '../styles/base.scss';
+
+.day {
+  box-sizing: border-box;
+  flex: 1 0 auto;
+  min-width: 33.33%;
+  color: $hoverColor;
+  border-bottom: $timetableBorder;
+}
+
+.day--hoverable:hover {
+  background: #E5E5E5;
+  color: #BFBFBF;
+  z-index: 99;
+}
+
+.day--hoverable:hover .day__name {
+  background: $hoverColor;
+}
+
+// gradient on the first & last cells to hide the shadow
+.day:first-child, .day:last-child {
+  background-repeat: no-repeat;
+  background-size: 20px 100%;
+}
+
+.day:first-child {
+  background-image: linear-gradient(to right, rgba(255,255,255, 1) 50%, rgba(255,255,255, 0) 100%);
+}
+
+.day:last-child {
+  background-image: linear-gradient(to left, rgba(255,255,255, 1) 50%, rgba(255,255,255, 0) 100%);
+  background-position: 100% 0;
+}
+
+.day__name {
+  color: #333;
+  text-transform: capitalize;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 3em;
+}
+
+.day__hours {
+  display: flex;
+  padding-left: 2px;
+  border-left: $timetableBorder;
+}
+
+.hours__row {
+  margin-left: 1px;
+  flex: 1 1 auto;
+}
+
+.row__hour {
+  box-sizing: border-box;
+  border-top: $timetableBorder;
+  height: 5em;
+}
+
+@media (min-width: 768px) {
+  .day {
+    min-width: 20%;  // show all 5 days
+  }
+}
+
+@media (min-width: 1280px) {
+  .day {
+    flex: 0 0 auto;
+    display: flex;
+    border-bottom: 0;
+  }
+
+  .day__name {
+    flex: 0 0 5%;
+    min-height: 5.5em;
+  }
+
+  .day__hours {
+    flex: 1 1 auto;
+    display: flex;
+    padding: 0;
+    flex-direction: column;
+    border: $timetableBorder;
+    border-right: 0;
+    margin-bottom: -1px;
+  }
+
+  .day:last-child .day__hours {
+    margin-bottom: 0;
+  }
+
+  .hours__row {
+    display: flex;
+    flex: 1 0 auto;
+  }
+
+  // selector ouch, but no choice
+  .hours__row:first-child .row__hour {
+    padding-top: 0.125em;
+  }
+
+  .row__hour {
+    border-right: $timetableBorder;
+    padding-left: 0;
+    height: auto;
+    flex: 1 0 0%;  // ie fix
+    border-top: 0;
+  }
+}
+</style>

@@ -3,7 +3,7 @@
       :style="setStyle()" :class="setClass()"
       @click.stop="lessonClick()"
       @mouseenter="highlightSame()" @mouseleave="highlightSame()">
-    <div class="lesson__code">{{ lesson.moduleCode }}</div>
+    <div class="lesson__code">{{ lesson.code }}</div>
     <div class="lesson__type">{{ lesson.lessonType }}&nbsp{{ lesson.classNo }}</div>
     <div class="lesson__venue">{{ lesson.venue }}</div>
     <div class="lesson__week">{{ lesson.weekText }}</div>
@@ -68,7 +68,7 @@ export default {
     setClass() {
       this.lessonIdentifier = this.lesson.uid.slice(0, -this.lesson.venue.length);
       return [
-        `module__${this.lesson.moduleCode}`,
+        `module__${this.lesson.code}`,
         `lesson--${this.lesson.displayStatus}`,
         this.lessonIdentifier,
       ];

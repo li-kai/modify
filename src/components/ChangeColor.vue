@@ -38,7 +38,7 @@ export default {
       const rules = sheet.cssRules;
 
       for (let i = 0, len = rules.length; i < len; i++) {
-        if (rules[i].selectorText === `.module__${this.module.ModuleCode}`) {
+        if (rules[i].selectorText === `.module__${this.module.code}`) {
           rules[i].style.color = colorInHex;
           break;
         }

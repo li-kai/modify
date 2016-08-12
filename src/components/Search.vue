@@ -26,7 +26,7 @@
             @click="selectModule(module.code)"
             @mouseover="pointAtModule($index)"
             >
-          {{ module.code }} : {{ module.name }}
+          {{ module.code }} : {{ module.title }}
         </li>
         <li class="list__module" v-show="queriedModules.length === 0">No results found.</li>
       </ul>
@@ -149,7 +149,7 @@ export default {
       }
     },
     userHasIt(code) {
-      return this.userModules.some(module => module.ModuleCode === code);
+      return this.userModules.some(module => module.code === code);
     },
     queryText(value, search) {
       value = value.toUpperCase();
@@ -170,20 +170,20 @@ export default {
       search = search.toUpperCase();
       const codeMatches = [];
       const nameMatches = [];
-      const arrayOfKeys = Object.keys(listOfModules);
 
-      for (let i = arrayOfKeys.length - 1; i >= 0; i--) {
-        const code = arrayOfKeys[i];
-        const name = listOfModules[code];
+      for (let i = listOfModules.length - 1; i >= 0; i--) {
+        const module = listOfModules[i];
+        const code = module.code;
+        const title = module.title;
         // user doesn't have it yet
         if (!this.userHasIt(code)) {
           // either code matches
           if (this.queryCode(code, search)) {
-            const module = { code, name };
+            const module = { code, title };
             codeMatches.push(module);
           // or text matches
-          } else if (this.queryText(name, search)) {
-            const module = { code, name };
+          } else if (this.queryText(title, search)) {
+            const module = { code, title };
             nameMatches.push(module);
           }
         }

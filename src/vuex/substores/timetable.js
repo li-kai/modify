@@ -51,29 +51,34 @@ const mutations = {
   },
   [ADD_MODULE](state, module) {
     state.retrieveError = false;
-    state.userModules.push(module);
-    if (Object.prototype.hasOwnProperty.call(module, 'Timetable')) {
-      allocateLessons(state, module);
+    const camelCaseModule = {};
+    Object.keys(module).forEach((key) => {
+      camelCaseModule[snakeCaseToCamelCase(key)] = module[key];
+    });
+
+    state.userModules.push(camelCaseModule);
+    if (Object.prototype.hasOwnProperty.call(camelCaseModule, 'timetable')) {
+      allocateLessons(state, camelCaseModule);
       sortByLengthDescending(state.week);
     }
 
     // wrap color if more than 9 modules
     state.colorCounter = (state.colorCounter + 1) % colorsList.length;
-    module.Color = colorsList[state.colorCounter];
+    camelCaseModule.color = colorsList[state.colorCounter];
   },
   [ADD_ERROR](state) {
     state.retrieveError = true;
   },
   [CHANGE_MODULE_COLOR](state, module, colorInHex) {
-    module.Color = colorInHex;
+    module.color = colorInHex;
   },
   [DELETE_MODULE](state, module) {
     const week = state.week;
-    const moduleCode = module.ModuleCode;
+    const code = module.code;
     const arrayOfKeys = Object.keys(week);
     for (let i = arrayOfKeys.length - 1; i >= 0; i--) {
       const day = arrayOfKeys[i];
-      week[day] = week[day].filter(lesson => lesson.moduleCode !== moduleCode);
+      week[day] = week[day].filter(lesson => lesson.code !== code);
     }
     state.userModules.$remove(module);
   },
@@ -85,13 +90,13 @@ const mutations = {
       // get the reference to modules (Array.prototype.find not in IE)
       for (let i = state.userModules.length - 1; i >= 0; i--) {
         module = state.userModules[i];
-        if (module.ModuleCode === selectedLesson.moduleCode) {
+        if (module.code === selectedLesson.code) {
           break;
         }
       }
 
       // make selectable the list of lessons, make them ghosted
-      state.selectable = module.Timetable[selectedLesson.lessonType];
+      state.selectable = module.timetable[selectedLesson.lessonType];
       for (let i = state.selectable.length - 1; i >= 0; i--) {
         const lesson = state.selectable[i];
         // make initial selected lesson look different from others
@@ -106,7 +111,7 @@ const mutations = {
     // user has picked a lesson
     } else {
       // user clicked on same lesson type
-      if (state.selected.moduleCode === selectedLesson.moduleCode &&
+      if (state.selected.code === selectedLesson.code &&
         state.selected.lessonType === selectedLesson.lessonType) {
         state.selected = selectedLesson;
       }
@@ -125,6 +130,10 @@ export default {
   state,
   mutations,
 };
+
+function snakeCaseToCamelCase(text) {
+  return text.replace(/_\w/g, m => m[1].toUpperCase());
+}
 
 function setSelected(state) {
   const classNo = state.selected.classNo;
@@ -146,16 +155,17 @@ function sortByLengthDescending(week) {
 }
 
 function allocateLessons(state, module) {
-  if (Array.isArray(module.Timetable)) {
+  if (Array.isArray(module.timetable)) {
     const lessons = {};
     // came from api, no processing done yet, so let's get to work
-    for (let i = module.Timetable.length - 1; i >= 0; i--) {
-      const lesson = createLesson(module.Timetable[i], module.ModuleCode);
+    for (let i = module.timetable.length - 1; i >= 0; i--) {
+      const lesson = createLesson(module.timetable[i], module.code);
       insertLessonByType(lessons, lesson);
 
       // add to the timetable
       state.week[lesson.dayText].push(lesson);
     }
+    // set those with only one choice as displayStatus 'ONLY'
     Object.values(lessons).forEach((listOfLessons) => {
       const classNo = listOfLessons[0].classNo;
       if (listOfLessons.every(lesson => lesson.classNo === classNo)) {
@@ -165,10 +175,10 @@ function allocateLessons(state, module) {
       }
     });
     // replace with the sorted version
-    module.Timetable = lessons;
+    module.timetable = lessons;
   } else {
     // came from forage, just restore back data
-    Object.values(module.Timetable).forEach((listOfLessons) => {
+    Object.values(module.timetable).forEach((listOfLessons) => {
       for (let i = listOfLessons.length - 1; i >= 0; i--) {
         const lesson = listOfLessons[i];
         state.week[lesson.dayText].push(lesson);
@@ -181,7 +191,6 @@ function allocateLessons(state, module) {
 
 function insertLessonByType(categorizedLessons, lesson) {
   const lessonType = lesson.lessonType;
-
   // if lessonType is already in the categorizedLessons object
   if (categorizedLessons.hasOwnProperty(lessonType)) {
     // check if this lesson also belongs to the one selected previously
@@ -200,32 +209,29 @@ function insertLessonByType(categorizedLessons, lesson) {
   }
 }
 
-function createLesson(data, moduleCode) {
+function createLesson(data, code) {
   const lesson = {};
-  Object.keys(data).forEach((property) => {
-    // Convert TitleCase to camelCase
-    const firstLetter = property.charAt(0).toLowerCase();
-    const properProperty = firstLetter + property.slice(1);
-    lesson[properProperty] = data[property];
+  Object.keys(data).forEach((key) => {
+    lesson[snakeCaseToCamelCase(key)] = data[key];
   });
 
   // if weekText is too long, and contains commas
-  if (~lesson.weekText.indexOf(',') && lesson.weekText.length > 5) {
-    lesson.weekText = `Weeks ${commaSeparatedToRange(lesson.weekText)}`;
-  } else if (lesson.weekText === 'Every Week') {
+  if (lesson.weekText === 'Every week') {
     lesson.weekText = '';
   }
 
+  // convert 18:00:00 to 1800 format
+  lesson.startTime = lesson.startTime.slice(0, 5).replace(':', '');
+  lesson.endTime = lesson.endTime.slice(0, 5).replace(':', '');
   // set num of hours for lesson
   lesson.hours = calculateHours(lesson.startTime, lesson.endTime);
 
-  lesson.moduleCode = moduleCode;
-  lesson.lessonType = lesson.lessonType.slice(0, 3).toLowerCase();
-  lesson.dayText = lesson.dayText.slice(0, 3).toLowerCase();
+  lesson.code = code;
+  lesson.lessonType = lesson.lessonType.toLowerCase();
+  lesson.dayText = lesson.dayText.toLowerCase();
 
   // set uid for tracking
-  lesson.uid = moduleCode + lesson.lessonType + lesson.classNo + lesson.venue;
-
+  lesson.uid = code + lesson.lessonType + lesson.classNo + lesson.venue;
   // these properties no longer change, so Vue will optimize
   /*
   for (let property in lesson) {
@@ -240,43 +246,4 @@ function calculateHours(startTime, endTime) {
   const hour = parseInt(endTime.slice(0, 2), 10) - parseInt(startTime.slice(0, 2), 10);
   const minutes = parseInt(endTime.slice(2), 10) - parseInt(startMinutes, 10);
   return hour + (minutes / 60);
-}
-
-// outputs '1,2,3,4,5' to '1-5'
-function commaSeparatedToRange(weekText) {
-  // get rid of duplicates and convert to array of numbers
-  const noDuplicates = new Set(weekText.split(','));
-  const numberArray = Array.from(noDuplicates).map(Number);
-
-  // check that the array does not contains NaN
-  if (numberArray.every(num => Number.isInteger(num))) {
-    numberArray.sort((a, b) => a - b); // sort it in ascending order
-  } else {
-    return weekText; // throw back the original string
-  }
-
-  // 2d array, where each sub array is a range
-  const arr = [[numberArray[0]]];
-  let index = 0;
-  for (let i = 1, len = numberArray.length; i < len; i++) {
-    const num = numberArray[i];
-    const last = arr[index].length - 1;
-    // check if number belongs in current sub array
-    if (num === (arr[index][last] + 1)) {
-      arr[index].push(num);
-    // create a new one
-    } else {
-      index++;
-      arr[index] = [num];
-    }
-  }
-
-  // join first and last if it contains more than 1 element
-  // then join the ranges to form string
-  return arr.map(range => {
-    if (range.length > 1) {
-      return `${range[0]}-${range[range.length - 1]}`;
-    }
-    return range[0];
-  }).join(', ');
 }

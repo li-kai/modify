@@ -4,10 +4,10 @@
       <td class="module__color">
         <div class="color__shape" :class="colorClass"></div>
       </td>
-      <td class="module__code">{{ module.ModuleCode }}</td>
-      <td class="module__title">{{ module.ModuleTitle }}</td>
-      <td class="module__credit">{{ module.ModuleCredit }}</td>
-      <td class="module__exam" >{{ readableDate }}</td>
+      <td class="module__code">{{ module.code }}</td>
+      <td class="module__title">{{ module.title }}</td>
+      <td class="module__credit">{{ module.credit }}</td>
+      <td class="module__exam" >{{ readableDateTime }}</td>
       <td class="module__action" :class="toggleClass(!showMoreInfo, 'module__action')">
         <button class="action__button" @click="deleteModule(module)">
           <svg><use xlink:href="#delete"/></svg>
@@ -29,22 +29,22 @@
     <tr class="module__more-info" v-show="showMoreInfo" transition="module__more-info">
       <td class="more-info__col more-info__description" colspan="3">
         <h4 class="more-info__header">Description:</h4>
-        <p>{{ module.ModuleDescription }}</p>
+        <p>{{ module.description }}</p>
       </td>
       <td class="more-info__col">
-        <h4 class="more-info__header">Workload:</h4>
-        <p>{{ module.Workload }}</p>
-        <p v-if="!module.Workload">Not listed</p>
+        <h4 class="more-info__header">Remarks:</h4>
+        <p>{{ module.remarks }}</p>
+        <p v-if="!module.remarks">None</p>
       </td>
       <td class="more-info__col">
         <h4 class="more-info__header">Prerequisite:</h4>
-        <p>{{ module.Prerequisite }}</p>
-        <p v-if="!module.Prerequisite">None</p>
+        <p>{{ module.prerequisite }}</p>
+        <p v-if="!module.prerequisite">None</p>
       </td>
       <td class="more-info__col">
         <h4 class="more-info__header">Preclusion:</h4>
-        <p>{{ module.Preclusion }}</p>
-        <p v-if="!module.Preclusion">None</p>
+        <p>{{ module.preclusion }}</p>
+        <p v-if="!module.preclusion">None</p>
       </td>
     </tr>
   </tbody>
@@ -75,14 +75,16 @@ export default {
       isChoosingColor: false,
       showMoreInfo: false,
       colorClass: '',
-      readableDate: '',
+      readableDateTime: '',
     };
   },
 
   created() {
-    this.readableDate = this.parseDate(this.module.ExamDate);
-    this.colorClass = `module__${this.module.ModuleCode}`;
-    const moduleColor = this.module.Color;
+    this.readableDateTime = this.parseDateTime(this.module.examTime);
+    this.colorClass = `module__${this.module.code}`;
+    const moduleColor = this.module.color;
+    console.log(this.colorClass);
+    console.log(this.module.color);
     document.styleSheets[0].insertRule(`.${this.colorClass}{color:${moduleColor};}`, 0);
   },
 
@@ -99,15 +101,15 @@ export default {
   },
 
   methods: {
-    parseDate(date) {
-      if (!date) return 'No exams'; // no exam date
-      const readableDate = new Date(date);
+    parseDateTime(time) {
+      if (!time) return 'No exams'; // no exam date
+      const readableDateTime = new Date(time);
       const options = {
         weekday: 'short',
         year: 'numeric', month: 'short', day: 'numeric',
         hour: 'numeric', minute: 'numeric', hour12: true,
       };
-      return readableDate.toLocaleDateString('en-GB', options);
+      return readableDateTime.toLocaleDateString('en-GB', options);
     },
     toggleInfo() {
       this.showMoreInfo = !this.showMoreInfo;

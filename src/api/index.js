@@ -3,11 +3,11 @@ import VueResource from 'vue-resource';
 import localforage from 'localforage';
 
 Vue.use(VueResource);
-// Vue.http.options.crossOrigin = true
-// Vue.http.options.xhr = {withCredentials: true}
-const API_ROOT = '//api.nusmods.com/2016-2017/1/';
-const AllModulesResource = Vue.resource(`${API_ROOT}moduleList.json?callback=?`);
-const ModuleResource = Vue.resource(`${API_ROOT}modules/{/moduleCode}.json`);
+// Vue.http.options.crossOrigin = true;
+// Vue.http.options.xhr = { withCredentials: true };
+const API_ROOT = 'https://api.modify.sg/';
+const AllModulesResource = Vue.resource(`${API_ROOT}modulesList/nus/2016/1`);
+const ModuleResource = Vue.resource(`${API_ROOT}modules/nus/2016/1/{/moduleCode}`);
 
 const USER_MODULES_KEY = 'user-modules';
 const ALL_MODULES_KEY = 'modify-modules';
@@ -22,6 +22,7 @@ function getFromForage(key, apiCall) {
       }
     }
     return apiCall.then((value) => {
+      value.data = JSON.parse(value.data);
       const object = {
         data: value.data,
         date: new Date(),
