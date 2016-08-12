@@ -83,8 +83,6 @@ export default {
     this.readableDateTime = this.parseDateTime(this.module.examTime);
     this.colorClass = `module__${this.module.code}`;
     const moduleColor = this.module.color;
-    console.log(this.colorClass);
-    console.log(this.module.color);
     document.styleSheets[0].insertRule(`.${this.colorClass}{color:${moduleColor};}`, 0);
   },
 
