@@ -155,6 +155,7 @@ export default {
     left: -1.2%;
     width: 102.2%;
     display: flex;
+    margin: 0;
     border-right: 0;
     justify-content: space-around;
   }
@@ -167,8 +168,7 @@ export default {
   .timings__hour {
     flex: 1 0 0%;
     text-align: right;
-    height: 3em;
-    line-height: 4.5em;
+    height: 1.5em;
   }
 
   .week {

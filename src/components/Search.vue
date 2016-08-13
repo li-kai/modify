@@ -22,6 +22,7 @@
         <li class="list__module"
             :class="{'list__module--selected': $index === pointer }"
             v-for="module of queriedModules"
+            track-by="$index"
             @click="selectModule(module.code)"
             @mouseover="pointAtModule($index)"
             >
@@ -81,11 +82,7 @@ export default {
 
   computed: {
     queriedModules() {
-      const searchResults = this.querySearch(this.listOfModules);
-      if (this.query.length > 1) {
-        return searchResults;
-      }
-      return searchResults.slice(0, 250);
+      return this.querySearch(this.listOfModules);
     },
   },
 

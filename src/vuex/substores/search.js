@@ -19,7 +19,10 @@ const mutations = {
     state.retrieveAllError = false;
 
     // sort by alphabetical
-    state.listOfModules = list.sort((a, b) => a.code.localeCompare(b.code));
+    list = list.sort((a, b) => a.code.localeCompare(b.code));
+    // freeze the objects
+    list.forEach(x => Object.freeze(x));
+    state.listOfModules = list;
   },
   [RETRIEVE_ALL_ERROR](state) {
     state.retrieveAllError = true;
