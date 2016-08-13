@@ -43,9 +43,9 @@ export default {
   },
 
   computed: {
-    /* returns true if number of school hours exceed 1900 */
+    /* returns true if number of school hours exceed 2000 */
     isExpanded() {
-      const maxSchoolHours = 1900;
+      const maxSchoolHours = 2000;
       const weekArray = Object.values(this.week);
       for (let day = weekArray.length - 1; day >= 0; day--) {
         for (const lesson of weekArray[day]) {

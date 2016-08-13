@@ -72,9 +72,7 @@ export default {
 .header__container {
   padding: 0 0.5em;
   margin: 0 auto;
-  max-width: 77%;
 }
-
 
 .container__navigator {
   float: right;
