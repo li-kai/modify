@@ -7,7 +7,7 @@ import {
 } from '../mutation-types';
 
 const state = {
-  listOfModules: {},
+  listOfModules: [],
   retrieveAllError: false,
   isSearching: false,
 };
@@ -17,7 +17,9 @@ const mutations = {
   // Retrieve all modules to be searched
   [RETRIEVE_ALL_MODULES](state, list) {
     state.retrieveAllError = false;
-    state.listOfModules = list;
+
+    // sort by alphabetical
+    state.listOfModules = list.sort((a, b) => a.code.localeCompare(b.code));
   },
   [RETRIEVE_ALL_ERROR](state) {
     state.retrieveAllError = true;

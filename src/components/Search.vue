@@ -15,7 +15,6 @@
               transition="bar__input"
               v-el:input="v-el:input"
               v-model="query"
-              debounce="75"
               @focus="hasFocus = true"
               @input="pointerReset()"
               @keydown="keydown"/>
@@ -82,9 +81,8 @@ export default {
 
   computed: {
     queriedModules() {
-      const search = this.query.toUpperCase();
-      const searchResults = this.querySearch(this.listOfModules, search);
-      if (search.length > 1) {
+      const searchResults = this.querySearch(this.listOfModules);
+      if (this.query.length > 1) {
         return searchResults;
       }
       return searchResults.slice(0, 250);
@@ -151,48 +149,37 @@ export default {
     userHasIt(code) {
       return this.userModules.some(module => module.code === code);
     },
-    queryText(value, search) {
-      value = value.toUpperCase();
-      // e.g. 'chem' would return true for 'chem 101' and 'intro to chem'
-      // but not 'biochem'
-      return value.indexOf(search) === 0 || value.indexOf(` ${search}`) > 0;
-    },
-    queryCode(value, search) {
+    queryCode(value, search, regex) {
       // search not pure numbers
       if (isNaN(parseInt(search, 10))) {
         return value.indexOf(search) === 0;
-      // search starts with numbers, so strip all non numerics
-      // and compare if search matches
       }
-      return value.replace(/\D/g, '').indexOf(search) === 0;
+      // and compare if search matches with numerics
+      // e.g. query '10' will match CS1010 but CS2110 will not
+      return value.search(regex) !== -1;
     },
-    querySearch(listOfModules, search) {
-      search = search.toUpperCase();
+    querySearch(listOfModules) {
+      const search = this.query.toUpperCase();
+      // regex match for later use
+      const matchStartOfWord = new RegExp(`\\b${this.query}`, 'i');
+      const matchNumericCode = new RegExp(`[a-zA-Z]${this.query}`);
+      // codeMatches will always come first
       const codeMatches = [];
       const nameMatches = [];
-
-      for (let i = listOfModules.length - 1; i >= 0; i--) {
-        const module = listOfModules[i];
-        const code = module.code;
-        const title = module.title;
-        // user doesn't have it yet
-        if (!this.userHasIt(code)) {
-          // either code matches
-          if (this.queryCode(code, search)) {
-            const module = { code, title };
-            codeMatches.push(module);
-          // or text matches
-          } else if (this.queryText(title, search)) {
-            const module = { code, title };
-            nameMatches.push(module);
-          }
+      listOfModules.forEach((module) => {
+        // either code matches
+        if (this.queryCode(module.code, search, matchNumericCode)) {
+          codeMatches.push(module);
+        // or text matches
+        // e.g. 'chem' would return true for 'chem 101' and 'intro to chem'
+        // but not 'biochem'
+        } else if (module.title.search(matchStartOfWord) !== -1) {
+          nameMatches.push(module);
         }
-      }
-
-      // sort by alphabetical
-      codeMatches.sort((a, b) => a.code.localeCompare(b.code));
+      });
       // return both
-      return codeMatches.concat(nameMatches);
+      const matched = codeMatches.concat(nameMatches);
+      return matched.filter(mod => !this.userHasIt(mod.code));
     },
   },
 };
