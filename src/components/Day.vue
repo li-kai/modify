@@ -166,12 +166,10 @@ export default {
 
 .day__hours {
   display: flex;
-  padding-left: 2px;
   border-left: $timetableBorder;
 }
 
 .hours__row {
-  margin-left: 1px;
   flex: 1 1 auto;
 }
 

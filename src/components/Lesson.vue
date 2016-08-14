@@ -114,6 +114,7 @@ export default {
 .lesson {
   height: 100%;
   position: relative;
+  margin-left: 0.125em;
   padding: 0.125em 0.25em;
   user-select: none;
   cursor: pointer;
@@ -183,6 +184,7 @@ export default {
 @media (min-width: 1280px) {
   .lesson {
     height: auto;
+    margin-left: 0;
     padding: 0.125em 0.25em 0.3em 0.25em;
     margin-top: 1px;
   }

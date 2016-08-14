@@ -78,6 +78,7 @@ export default {
   float: right;
   margin: 1em;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .controls__container {
