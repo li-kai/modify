@@ -140,16 +140,6 @@ export default {
   border-bottom: $timetableBorder;
 }
 
-.day--hoverable:hover {
-  background: #E5E5E5;
-  color: #BFBFBF;
-  z-index: 99;
-}
-
-.day--hoverable:hover .day__name {
-  background: $hoverColor;
-}
-
 // gradient on the first & last cells to hide the shadow
 .day:first-child, .day:last-child {
   background-repeat: no-repeat;
@@ -202,6 +192,16 @@ export default {
     flex: 0 0 auto;
     display: flex;
     border-bottom: 0;
+  }
+
+  .day--hoverable:hover {
+    background: #E5E5E5;
+    color: #BFBFBF;
+    z-index: 99;
+  }
+
+  .day--hoverable:hover .day__name {
+    background: $hoverColor;
   }
 
   .day__name {

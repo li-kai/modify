@@ -82,7 +82,7 @@ export default {
 
 .controls__container {
   position: relative;
-  padding: 0 0.5em;
+  padding: 0 1em;
   margin: 0 auto;
   max-width: 1096px;
 }

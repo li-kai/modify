@@ -279,14 +279,14 @@ $searchInputHeight: 3rem;
 }
 
 .search__add {
-  transition: all 0.225s $bezierStandardCurve;
+  transition: background 0.225s $bezierStandardCurve,
+              border-radius 0.225s $bezierStandardCurve;
   flex: 0 0 ($searchInputHeight + 0.5);
   height: ($searchInputHeight + 0.5);
   border: 0;
-  margin-right: 0.5em;
   line-height: 0;
   background: #E84664;
-  transform: translate3d(0);
+  transform: translate3d(0, 0, 0);
   will-change: scroll-position;
 }
 
@@ -295,14 +295,15 @@ $searchInputHeight: 3rem;
 }
 
 .search__add--float {
-  transition: all 0.225s $bezierStandardCurve;
   outline: 0;
   position: fixed;
   z-index: 100;
   bottom: 1em;
-  right: 0.5em;
+  right: 0.875em;
   border-radius: 50%;
-  width: ($searchInputHeight + 0.5);
+  height: ($searchInputHeight + 1);
+  width: ($searchInputHeight + 1);
+  box-shadow: $materialBoxShadow;
 }
 
 .search__add--active {
@@ -358,7 +359,7 @@ $searchInputHeight: 3rem;
     height: $searchInputHeight;
   }
 
-  .search__add--fixed {
+  .search__add--float {
     position: static;
     border-radius: 0;
     width: $searchInputHeight;

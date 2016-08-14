@@ -171,7 +171,8 @@ export default {
 }
 
 .lesson--ghosted {
-  opacity: 0.75;
+  opacity: 0.72;
+  visibility: visible;
 }
 
 .lesson--initial {
