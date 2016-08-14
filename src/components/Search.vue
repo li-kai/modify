@@ -33,7 +33,8 @@
     </div>
     <button :class="toggleActive('search__add')"
             title="Add a module"
-            @click="toggleSearch">
+            @click="toggleSearch"
+            v-el:search-add>
       <svg :class="toggleActive('add__icon')"><use xlink:href="#plus"/></svg>
     </button>
     <div class="search__error" v-if="hasError">No connection to Modify. Please refresh the page to try again.</div>
@@ -73,11 +74,24 @@ export default {
       hasFocus: false,
       query: '',
       pointer: 0,
+      pos: 0,
     };
   },
 
   created() {
     this.retrieveAllModules();
+  },
+
+  ready() {
+    const addButton = this.$els.searchAdd;
+    const fixedClass = 'search__add--fixed';
+    document.ontouchmove = () => {
+      if (window.scrollY < this.$el.getBoundingClientRect().top) {
+        addButton.classList.add(fixedClass);
+      } else {
+        addButton.classList.remove(fixedClass);
+      }
+    };
   },
 
   computed: {
@@ -268,12 +282,26 @@ $searchInputHeight: 3rem;
   flex: 0 0 ($searchInputHeight + 0.5);
   height: ($searchInputHeight + 0.5);
   border: 0;
+  margin-right: 0.5em;
   line-height: 0;
   background: #E84664;
+  transform: translate3d(0);
+  will-change: scroll-position;
 }
 
 .search__add:focus {
   outline-color: #A83349;
+}
+
+.search__add--fixed {
+  transition: all 0.225s $bezierStandardCurve;
+  outline: 0;
+  position: fixed;
+  z-index: 100;
+  bottom: 1em;
+  right: 0.5em;
+  border-radius: 50%;
+  width: ($searchInputHeight + 0.5);
 }
 
 .search__add--active {
@@ -327,6 +355,12 @@ $searchInputHeight: 3rem;
   .search__add {
     flex: 0 0 $searchInputHeight;
     height: $searchInputHeight;
+  }
+
+  .search__add--fixed {
+    position: static;
+    border-radius: 0;
+    width: $searchInputHeight;
   }
 
   .search__add:hover {
