@@ -174,6 +174,7 @@ export default {
   .week {
     width: 100%;
     flex-direction: column;
+    overflow: hidden;
   }
 }
 

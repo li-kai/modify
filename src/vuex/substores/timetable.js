@@ -22,7 +22,7 @@ const ONLY = 'only';
 const INITIAL = 'initial';
 
 // Hex code for colors
-const colorsList = ['#42A5F5', '#4CAF50', '#FBC02D',
+const colorsList = ['#42A5F5', '#4CAF50', '#F0BB2D',
                     '#f64747', '#FB8C00', '#BA68C8',
                     '#80CBC4', '#BDBDBD', '#90A4AE'];
 

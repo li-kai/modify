@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       colorsList: [
-        '#42A5F5', '#4CAF50', '#FBC02D',
+        '#42A5F5', '#4CAF50', '#F0BB2D',
         '#f64747', '#FB8C00', '#BA68C8',
         '#80CBC4', '#BDBDBD', '#90A4AE',
       ],
@@ -52,7 +52,7 @@ export default {
 <style lang="scss">
 @import '../styles/base.scss';
 
-$colors-list: #42A5F5, #4CAF50, #FBC02D, #e74c3c, #FB8C00, #BA68C8, #80CBC4, #BDBDBD, #90A4AE;
+$colors-list: #42A5F5, #4CAF50, #F0BB2D, #e74c3c, #FB8C00, #BA68C8, #80CBC4, #BDBDBD, #90A4AE;
 @for $i from 1 through length($colors-list) {
   .color__#{$i} {
     color: nth($colors-list, $i);
