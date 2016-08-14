@@ -22,9 +22,9 @@ const ONLY = 'only';
 const INITIAL = 'initial';
 
 // Hex code for colors
-const colorsList = ['#42A5F5', '#4CAF50', '#F0BB2D',
-                    '#f64747', '#FB8C00', '#BA68C8',
-                    '#80CBC4', '#BDBDBD', '#90A4AE'];
+const colorsList = ['#42A5F5', '#4CAF50', '#EBB72C',
+                    '#f64747', '#FF8300', '#BA68C8',
+                    '#7BC0BF', '#607D8B', '#919191'];
 
 const state = {
   week: {

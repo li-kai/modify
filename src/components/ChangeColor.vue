@@ -1,8 +1,8 @@
 <template>
   <ul class="colors">
-    <li class="colors__item" v-for="n in 9" :class="'color__' + (n + 1)"
+    <li class="colors__item" v-for="n in 9"
       @click="changeColor(colorsList[n])">
-      <div class="item__shape"></div>
+      <div class="item__shape" :class="'color__' + (n + 1)"></div>
     </li>
   </ul>
 </template>
@@ -25,9 +25,9 @@ export default {
   data() {
     return {
       colorsList: [
-        '#42A5F5', '#4CAF50', '#F0BB2D',
-        '#f64747', '#FB8C00', '#BA68C8',
-        '#80CBC4', '#BDBDBD', '#90A4AE',
+        '#42A5F5', '#4CAF50', '#EBB72C',
+        '#f64747', '#FF8300', '#BA68C8',
+        '#7BC0BF', '#607D8B', '#919191',
       ],
     };
   },
@@ -39,7 +39,7 @@ export default {
 
       for (let i = 0, len = rules.length; i < len; i++) {
         if (rules[i].selectorText === `.module__${this.module.code}`) {
-          rules[i].style.color = colorInHex;
+          rules[i].style.background = colorInHex;
           break;
         }
       }
@@ -52,10 +52,10 @@ export default {
 <style lang="scss">
 @import '../styles/base.scss';
 
-$colors-list: #42A5F5, #4CAF50, #F0BB2D, #e74c3c, #FB8C00, #BA68C8, #80CBC4, #BDBDBD, #90A4AE;
+$colors-list: #42A5F5, #4CAF50, #EBB72C, #e74c3c, #FF8300, #BA68C8, #7BC0BF, #607D8B, #919191;
 @for $i from 1 through length($colors-list) {
   .color__#{$i} {
-    color: nth($colors-list, $i);
+    background: nth($colors-list, $i);
   }
 }
 
@@ -96,7 +96,6 @@ $colors-list: #42A5F5, #4CAF50, #F0BB2D, #e74c3c, #FB8C00, #BA68C8, #80CBC4, #BD
 }
 
 .item__shape {
-  background: currentColor;
   margin: 1em auto;
   height: 1em;
   width: 1em;

@@ -112,6 +112,7 @@ export default {
 <style lang="scss">
 @import '../styles/base.scss';
 .lesson {
+  color: #fff;
   height: 100%;
   position: relative;
   margin-left: 0.125em;
@@ -120,12 +121,7 @@ export default {
   cursor: pointer;
   line-height: 1.23;
   box-sizing: border-box;
-  background: currentColor;
   transition: $standardTransition;
-}
-
-.lesson__code, .lesson__type, .lesson__venue, .lesson__week {
-  color: #FFF;
 }
 
 .lesson__code {
@@ -183,6 +179,7 @@ export default {
 }
 
 .lesson--ghosted {
+  color: #fff;
   opacity: 0.7;
   visibility: visible;
 }
