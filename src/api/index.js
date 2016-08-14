@@ -37,7 +37,7 @@ function getFromForage(key, apiCall) {
 export default {
   getAllModules(school, year, sem) {
     return getFromForage(
-      ALL_MODULES_KEY,
+      ALL_MODULES_KEY + school + year + sem,
       AllModulesResource.get({ school, year, sem }),
     );
   },

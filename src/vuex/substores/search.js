@@ -46,6 +46,7 @@ const mutations = {
       title: module.title,
     });
     const index = state.deletedModuleIndexes[module.code];
+    // insert back at the position
     state.listOfModules.splice(index, 0, deletedModule);
   },
   [TOGGLE_SEARCH_STATUS](state) {

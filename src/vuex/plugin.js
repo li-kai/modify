@@ -15,7 +15,10 @@ const localForagePlugin = store => {
       mutation.type === CHANGE_MODULE_COLOR ||
       // only save when user has selected
       mutation.type === ON_CLICK_LESSON && timetable.selectable.length === 0) {
-      localforage.setItem(STORAGE_KEY, timetable.userModules);
+      localforage.setItem(
+        STORAGE_KEY + timetable.school + timetable.year + timetable.semester,
+        timetable.userModules,
+      );
     }
   });
 };

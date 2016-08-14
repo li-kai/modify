@@ -64,8 +64,7 @@ export default {
       }
 
       const day = [];
-
-      while (numberOfLessons > 0) {
+      while (numberOfLessons > 0 && day.length < 50) {
         // construct a new row
         const row = this.generateArrayFromHours(numberOfHours);
         let spillover = 0;
@@ -80,7 +79,7 @@ export default {
             const lesson = lessonsByHour[i][0];
             const start = parseInt(lesson.startTime.slice(2), 10) / 60;
             // lesson starts before spillover, skip
-            if (start > spillover) {
+            if (start < spillover) {
               i++;
               spillover = 0;
             } else {
