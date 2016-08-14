@@ -171,8 +171,19 @@ export default {
   cursor: auto;
 }
 
+.lesson--only::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 0.5em;
+  background: inherit;
+  filter: brightness(0.9);
+}
+
 .lesson--ghosted {
-  opacity: 0.72;
+  opacity: 0.7;
   visibility: visible;
 }
 
