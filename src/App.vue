@@ -1,12 +1,7 @@
 <template>
   <header>
     <div class="header__container">
-      <nav class="container__navigator">
-        <span class="navigator__school">NUS,</span>
-        <span class="navigator__school">AY2016/17,</span>
-        <span class="navigator__semester">Semester 1,</span>
-        <span class="navigator__week">Week 1</span>
-      </nav>
+      <mod-navigator></mod-navigator>
     </div>
   </header>
   <main class="app" @click="onClickOutside">
@@ -34,6 +29,7 @@
 </template>
 
 <script>
+import ModNavigator from './components/Navigator';
 import ModTimetable from './components/Timetable';
 import ModSearch from './components/Search';
 import ModInfo from './components/Info';
@@ -42,6 +38,7 @@ import { onClickOutside } from './vuex/actions';
 
 export default {
   components: {
+    ModNavigator,
     ModTimetable,
     ModSearch,
     ModInfo,
@@ -72,13 +69,6 @@ export default {
 .header__container {
   padding: 0 0.5em;
   margin: 0 auto;
-}
-
-.container__navigator {
-  float: right;
-  margin: 1em;
-  font-weight: 600;
-  white-space: nowrap;
 }
 
 .controls__container {

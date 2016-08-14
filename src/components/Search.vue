@@ -53,6 +53,9 @@ import {
   getAllModules,
   getAllModulesResponse,
   getSearchStatus,
+  getSchool,
+  getYear,
+  getSemester,
 } from '../vuex/getters';
 
 export default {
@@ -67,6 +70,9 @@ export default {
       listOfModules: getAllModules,
       userModules: getUserModules,
       hasError: getAllModulesResponse,
+      school: getSchool,
+      year: getYear,
+      sem: getSemester,
     },
   },
 
@@ -80,7 +86,7 @@ export default {
   },
 
   created() {
-    this.retrieveAllModules();
+    this.retrieveAllModules(this.school, this.year, this.sem);
   },
 
   ready() {
@@ -117,8 +123,8 @@ export default {
         this.isActive ? `${className}--active` : '',
       ];
     },
-    selectModule(data) {
-      this.addModule(data);
+    selectModule(moduleCode) {
+      this.addModule(this.school, this.year, this.sem, moduleCode);
       this.query = ''; // reset query
     },
     pointAtModule(index) {

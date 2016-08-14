@@ -1,24 +1,24 @@
 import api from '../api';
 import * as types from './mutation-types';
 
-export const retrieveAllModules = ({ dispatch }) => {
-  api.getAllModules().then(response => {
+export const retrieveAllModules = ({ dispatch }, school, year, sem) => {
+  api.getAllModules(school, year, sem).then(response => {
     dispatch(types.RETRIEVE_ALL_MODULES, response);
   }).catch(() => {
     dispatch(types.RETRIEVE_ALL_ERROR);
   });
 };
 
-export const attachUserModules = ({ dispatch }) => {
-  api.getUserModules().then(response => {
+export const attachUserModules = ({ dispatch }, school, year, sem) => {
+  api.getUserModules(school, year, sem).then(response => {
     dispatch(types.ATTACH_USER_MODULES, response);
   }).catch(() => {
     dispatch(types.RETRIEVE_ALL_ERROR);
   });
 };
 
-export const addModule = ({ dispatch }, moduleCode) => {
-  api.getModule(moduleCode).then(response => {
+export const addModule = ({ dispatch }, school, year, sem, moduleCode) => {
+  api.getModule(school, year, sem, moduleCode).then(response => {
     dispatch(types.ADD_MODULE, response);
   }).catch(() => {
     dispatch(types.ADD_ERROR);

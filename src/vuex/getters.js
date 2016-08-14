@@ -5,6 +5,9 @@ export const getAllModulesResponse = state => state.search.retrieveAllError;
 export const getSearchStatus = state => state.search.isSearching;
 
 /* gets the specific module timetable */
+export const getSchool = state => state.timetable.school;
+export const getYear = state => state.timetable.year;
+export const getSemester = state => state.timetable.semester;
 export const getWeek = state => state.timetable.week;
 export const getUserModules = state => state.timetable.userModules;
 export const getNumOfModules = state => Object.keys(state.timetable.userModules).length;

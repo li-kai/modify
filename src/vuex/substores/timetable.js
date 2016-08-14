@@ -27,6 +27,9 @@ const colorsList = ['#42A5F5', '#4CAF50', '#EBB72C',
                     '#7BC0BF', '#607D8B', '#919191'];
 
 const state = {
+  school: 'NUS',
+  year: 2016,
+  semester: 1,
   week: {
     mon: [], tue: [], wed: [], thu: [], fri: [],
     sat: [], sun: [],
