@@ -10,9 +10,9 @@ const state = {
   listOfModules: [],
   retrieveAllError: false,
   isSearching: false,
+  deletedModuleIndexes: {},
 };
 
-// Create an object storing various mutations. We will write the mutation
 const mutations = {
   // Retrieve all modules to be searched
   [RETRIEVE_ALL_MODULES](state, list) {
@@ -29,11 +29,24 @@ const mutations = {
   },
   // Remove from searchable list
   [ADD_MODULE](state, module) {
-    delete state.listOfModules[module.code];
+    // get the reference to modules (Array.prototype.find not in IE)
+    for (let i = 0, len = state.listOfModules.length; i < len; i++) {
+      const mod = state.listOfModules[i];
+      if (module.code === mod.code) {
+        state.listOfModules.splice(i, 1);
+        state.deletedModuleIndexes[mod.code] = i;
+        break;
+      }
+    }
   },
   // Add it back to searchable list
   [DELETE_MODULE](state, module) {
-    state.listOfModules[module.code] = module.title;
+    const deletedModule = Object.freeze({
+      code: module.code,
+      title: module.title,
+    });
+    const index = state.deletedModuleIndexes[module.code];
+    state.listOfModules.splice(index, 0, deletedModule);
   },
   [TOGGLE_SEARCH_STATUS](state) {
     state.isSearching = !state.isSearching;

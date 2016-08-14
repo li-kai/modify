@@ -196,8 +196,7 @@ export default {
         }
       });
       // return both
-      const matched = codeMatches.concat(nameMatches);
-      return matched.filter(mod => !this.userHasIt(mod.code));
+      return codeMatches.concat(nameMatches);
     },
   },
 };

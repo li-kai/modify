@@ -1,8 +1,8 @@
 import api from '../api';
 import * as types from './mutation-types';
 
-export const changeSchool = ({ dispatch }, school) => {
-  dispatch(types.CHANGE_SCHOOL, school);
+export const setSchool = ({ dispatch }, school) => {
+  dispatch(types.SET_SCHOOL, school);
 };
 
 export const retrieveAllModules = ({ dispatch }, school, year, sem) => {

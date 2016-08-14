@@ -1,4 +1,5 @@
 import {
+  SET_SCHOOL,
   ATTACH_USER_MODULES,
   ADD_MODULE,
   ADD_ERROR,
@@ -43,6 +44,11 @@ const state = {
 
 // mutations
 const mutations = {
+  [SET_SCHOOL](state, school) {
+    if (school === 'NUS' || school === 'NTU') {
+      state.school = school;
+    }
+  },
   [ATTACH_USER_MODULES](state, userModules) {
     if (userModules) {
       state.userModules = userModules;
@@ -93,7 +99,7 @@ const mutations = {
     if (state.selectable.length === 0) {
       let module;
       // get the reference to modules (Array.prototype.find not in IE)
-      for (let i = state.userModules.length - 1; i >= 0; i--) {
+      for (let i = 0, len = state.userModules.length; i < len; i++) {
         module = state.userModules[i];
         if (module.code === selectedLesson.code) {
           break;
