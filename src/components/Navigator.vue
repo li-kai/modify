@@ -10,12 +10,13 @@
 <script>
 import store from '../vuex/store';
 import { getSchool, getYear, getSemester } from '../vuex/getters';
-import { } from '../vuex/actions';
+import { changeSchool } from '../vuex/actions';
 
 export default {
   store,
   vuex: {
     actions: {
+      changeSchool,
     },
     getters: {
       school: getSchool,

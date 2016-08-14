@@ -1,6 +1,10 @@
 import api from '../api';
 import * as types from './mutation-types';
 
+export const changeSchool = ({ dispatch }, school) => {
+  dispatch(types.CHANGE_SCHOOL, school);
+};
+
 export const retrieveAllModules = ({ dispatch }, school, year, sem) => {
   api.getAllModules(school, year, sem).then(response => {
     dispatch(types.RETRIEVE_ALL_MODULES, response);

@@ -179,7 +179,8 @@ export default {
   height: 5em;
 }
 
-@media (min-width: 768px) {
+// tablets xor phones tilting will show all 5 days
+@media (min-width: 768px), screen and (orientation : landscape) {
   .day {
     min-width: 20%;  // show all 5 days
   }
