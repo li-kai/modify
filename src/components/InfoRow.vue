@@ -30,6 +30,8 @@
       <td class="more-info__col more-info__description" colspan="3">
         <h4 class="more-info__header">Description:</h4>
         <p>{{ module.description }}</p>
+        <h4 class="more-info__header" v-if="module.availability">Availability:</h4>
+        <p v-if="module.availability">{{ module.availability }}</p>
       </td>
       <td class="more-info__col">
         <h4 class="more-info__header">Remarks:</h4>

@@ -21,7 +21,7 @@
 
 <script>
 import ModDay from './Day';
-import { attachUserModules } from '../vuex/actions';
+import { } from '../vuex/actions';
 import {
   getWeek,
   getSelectable,
@@ -31,7 +31,7 @@ import {
 } from '../vuex/getters';
 export default {
   vuex: {
-    actions: { attachUserModules },
+    actions: { },
     getters: {
       week: getWeek,
       getSelectable,
@@ -74,8 +74,6 @@ export default {
   },
 
   created() {
-    // Retrieve user mods on start
-    this.attachUserModules(this.school, this.year, this.sem);
     // Generate strings for the timings
     for (let hour = 8; hour <= 24; hour++) {
       const doubleDigitTime = (`0${hour % 24}`).slice(-2);

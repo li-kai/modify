@@ -50,6 +50,12 @@ const mutations = {
     }
   },
   [ATTACH_USER_MODULES](state, userModules) {
+    // clear out remnants
+    state.userModules = [];
+    state.selectable = [];
+    Object.keys(state.week).forEach(day => {
+      state.week[day] = [];
+    });
     if (userModules) {
       state.userModules = userModules;
       for (let i = userModules.length - 1; i >= 0; i--) {

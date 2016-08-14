@@ -6,17 +6,16 @@ export const setSchool = ({ dispatch }, school) => {
 };
 
 export const retrieveAllModules = ({ dispatch }, school, year, sem) => {
+  // first get the list of all modules
   api.getAllModules(school, year, sem).then(response => {
     dispatch(types.RETRIEVE_ALL_MODULES, response);
-  }).catch(() => {
-    dispatch(types.RETRIEVE_ALL_ERROR);
-  });
-};
-
-export const attachUserModules = ({ dispatch }, school, year, sem) => {
-  api.getUserModules(school, year, sem).then(response => {
+    return api.getUserModules(school, year, sem);
+  })
+  // then get the previously saved modules, if any
+  .then(response => {
     dispatch(types.ATTACH_USER_MODULES, response);
-  }).catch(() => {
+  })
+  .catch(() => {
     dispatch(types.RETRIEVE_ALL_ERROR);
   });
 };
