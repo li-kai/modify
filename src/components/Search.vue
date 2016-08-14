@@ -32,6 +32,7 @@
       </ul>
     </div>
     <button :class="toggleActive('search__add')"
+            class="search__add--float"
             title="Add a module"
             @click="toggleSearch"
             v-el:search-add>
@@ -84,8 +85,8 @@ export default {
 
   ready() {
     const addButton = this.$els.searchAdd;
-    const fixedClass = 'search__add--fixed';
-    document.ontouchmove = () => {
+    const fixedClass = 'search__add--float';
+    window.onscroll = () => {
       if (window.scrollY < this.$el.getBoundingClientRect().top) {
         addButton.classList.add(fixedClass);
       } else {
@@ -293,7 +294,7 @@ $searchInputHeight: 3rem;
   outline-color: #A83349;
 }
 
-.search__add--fixed {
+.search__add--float {
   transition: all 0.225s $bezierStandardCurve;
   outline: 0;
   position: fixed;
