@@ -162,7 +162,7 @@ export default {
     left: -1.2%;
     width: 102.2%;
     display: flex;
-    margin: 0;
+    margin-top: 0.5em;
     border-right: 0;
     justify-content: space-around;
   }

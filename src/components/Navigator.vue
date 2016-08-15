@@ -1,16 +1,17 @@
 <template>
   <nav class="navigator">
-    <fieldset class="navigator__school">
-      <input class="school__radio" type="radio" id="nus"
-              value="NUS" v-model="schoolState">
-      <label class="school__label" for="nus">NUS</label>
-      <input class="school__radio" type="radio" id="ntu"
-              value="NTU" v-model="schoolState">
-      <label class="school__label" for="ntu">NTU</label>
-    </fieldset><span>,</span>
-    <span class="navigator__year">{{ year }}</span><span>,</span>
-    <span class="navigator__semester">{{ semester }}</span><span>,</span>
-    <span class="navigator__week">{{ week }}</span>
+    <div class="navigator__current">
+      <span class="current__year">{{ year }},</span>
+      <span class="current__semester">{{ semester }}</span><div class="current__break"></div>
+      <span class="current__week">{{ week }}</span>
+    </div>
+    <div class="navigator__menu">
+      <button class="menu__swap"
+              :class="`menu__swap--${school}`"
+              @click="swapSchool">
+        {{ school }}
+      </button>
+    </div>
   </nav>
 </template>
 
@@ -33,23 +34,20 @@ export default {
     },
   },
 
+  methods: {
+    swapSchool() {
+      const swappedSchool = this.school === 'NUS' ? 'NTU' : 'NUS';
+      console.log(swappedSchool);
+      this.setSchool(swappedSchool);
+      this.setUserTimetable(swappedSchool, this.year, this.getSemester);
+    },
+  },
+
   data() {
     return {
       week: '',
       semester: '',
     };
-  },
-
-  computed: {
-    schoolState: {
-      get() {
-        return this.school;
-      },
-      set(val) {
-        this.setSchool(val);
-        this.setUserTimetable(val, this.year, this.getSemester);
-      },
-    },
   },
 
   created() {
@@ -84,51 +82,79 @@ export default {
 <style lang="scss">
 @import '../styles/base.scss';
 
+$marginTop: 0.125em;
+
 .navigator {
   float: right;
-  margin: 0.875em;
+  display: inline-block;
   font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
+  margin: 0.3em $marginTop 0 0;
 }
 
-.navigator__school {
-  padding: 0;
-  margin: 0;
-  border: 1px solid transparent;
+.navigator__current {
   display: inline-block;
+  text-align: right;
 }
 
-.navigator__school:hover {
-  border: 1px solid #b6b6b6;
-}
-
-.school__radio {
-  clip: rect(1px, 1px, 1px, 1px);
-  position: absolute !important;
-  padding: 0;
-}
-
-.school__label {
-  display: none;
-  padding: 0.25rem 0;
-  color: #b6b6b6;
-}
-
-.navigator__school:hover > .school__label {
+.navigator__menu {
   display: inline-block;
-  padding: 0.25rem 0.25rem;
+  vertical-align: top;
 }
 
-.school__radio:checked + .school__label {
-  display: inline-block;
-  color: #333;
+$nusColor: #003d7c;
+$ntuColor: #c2292c;
+$nusBorder: 0.125em solid $nusColor;
+$ntuBorder: 0.125em solid $ntuColor;
+$focusBorderWidth: 0.2em;
+
+.menu__swap {
+  outline: 0;
+  background: #fff;
+  height: 3 - $marginTop;
+  width: 3 - $marginTop;
 }
 
-@media (min-width: 768px) {
-  .controls {
-    margin-bottom: 10em;
-    min-height: 17em;
+.menu__swap--NUS:hover {
+  background: $nusColor;
+  color: #fff;
+}
+
+.menu__swap--NTU:hover {
+  background: $ntuColor;
+  color: #fff;
+}
+
+.menu__swap:focus, .menu__swap--NUS:focus, .menu__swap--NUS:focus {
+  border-width: $focusBorderWidth;
+}
+
+.menu__swap--NUS {
+  border: $nusBorder;
+  color: $nusColor;
+}
+
+.menu__swap--NTU {
+  border: $ntuBorder;
+  color: $ntuColor;
+}
+
+@media screen and (min-width: 768px) {
+  .navigator__current {
+    line-height: 3em;
+    margin-right: 0.25em;
+  }
+
+  .current__break {
+    display: inline;
+  }
+
+  .current__break::after {
+    content: ',';
+  }
+
+  .menu__swap {
+    height: 3em;
+    width: 3em;
   }
 }
 </style>
