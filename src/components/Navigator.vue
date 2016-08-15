@@ -37,7 +37,6 @@ export default {
   methods: {
     swapSchool() {
       const swappedSchool = this.school === 'NUS' ? 'NTU' : 'NUS';
-      console.log(swappedSchool);
       this.setSchool(swappedSchool);
       this.setUserTimetable(swappedSchool, this.year, this.getSemester);
     },
