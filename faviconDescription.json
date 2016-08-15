@@ -1,0 +1,59 @@
+
+{
+	"masterPicture": "./src/assets/logo_512x512.png",
+	"iconsPath": "/",
+	"design": {
+		"ios": {
+			"pictureAspect": "backgroundAndMargin",
+			"backgroundColor": "#ffffff",
+			"margin": "18%",
+			"assets": {
+				"ios6AndPriorIcons": false,
+				"ios7AndLaterIcons": false,
+				"precomposedIcons": false,
+				"declareOnlyDefaultIcon": true
+			}
+		},
+		"desktopBrowser": {},
+		"windows": {
+			"pictureAspect": "noChange",
+			"backgroundColor": "#2b5797",
+			"onConflict": "override",
+			"assets": {
+				"windows80Ie10Tile": false,
+				"windows10Ie11EdgeTiles": {
+					"small": false,
+					"medium": true,
+					"big": true,
+					"rectangle": false
+				}
+			}
+		},
+		"androidChrome": {
+			"masterPicture": "./src/assets/logo_512x512_rounded.png",
+			"pictureAspect": "shadow",
+			"themeColor": "#ffffff",
+			"manifest": {
+				"name": "Modify",
+				"startUrl": "https://www.modify.sg",
+				"display": "standalone",
+				"orientation": "notSet",
+				"onConflict": "override",
+				"declared": true
+			},
+			"assets": {
+				"legacyIcon": false,
+				"lowResolutionIcons": false
+			}
+		},
+		"safariPinnedTab": {
+			"pictureAspect": "silhouette",
+			"themeColor": "#e84664"
+		}
+	},
+	"settings": {
+		"compression": 1,
+		"scalingAlgorithm": "NearestNeighbor",
+		"errorOnImageTooSmall": false
+	}
+}

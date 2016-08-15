@@ -32,4 +32,8 @@ webpack(webpackConfig, function (err, stats) {
     chunks: false,
     chunkModules: false
   }) + '\n')
+
+  exec('real-favicon generate faviconDescription.json faviconData.json ' + config.build.assetsRoot)
+  // exec('real-favicon inject faviconData.json ' + config.build.assetsRoot + ' *.html')
+  // exec('real-favicon check-for-update --fail-on-update faviconData.json')
 })

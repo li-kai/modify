@@ -1,7 +1,7 @@
 {
-  "name": "modify",
+  "name": "Modify",
   "version": "1.0.0",
-  "description": "Responsive timetables for Singapore universities",
+  "description": "Timetable planner for Singapore universities",
   "author": "li-kai <falconets25601@hotmail.com>",
   "private": true,
   "scripts": {
@@ -30,6 +30,7 @@
     "babel-register": "^6.0.0",
     "chai": "^3.5.0",
     "chromedriver": "^2.21.2",
+    "cli-real-favicon": "0.0.6",
     "compression-webpack-plugin": "^0.3.1",
     "connect-history-api-fallback": "^1.1.0",
     "cross-spawn": "^2.1.5",
