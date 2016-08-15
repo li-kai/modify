@@ -5,15 +5,43 @@ export const setSchool = ({ dispatch }, school) => {
   dispatch(types.SET_SCHOOL, school);
 };
 
-export const retrieveAllModules = ({ dispatch }, school, year, sem) => {
+export const setUserTimetable = ({ dispatch }, school, year, sem) => {
   // first get the list of all modules
-  api.getAllModules(school, year, sem).then(response => {
-    dispatch(types.RETRIEVE_ALL_MODULES, response);
+  api.getModulesList(school, year, sem).then(response => {
+    dispatch(types.RETRIEVE_MODULES_LIST, response);
     return api.getUserModules(school, year, sem);
   })
   // then get the previously saved modules, if any
   .then(response => {
     dispatch(types.ATTACH_USER_MODULES, response);
+  })
+  .catch(() => {
+    dispatch(types.RETRIEVE_ALL_ERROR);
+  });
+};
+
+/*
+Gets the timetable from local forage, by default meaning if the user
+changes the school or semester, this is the last saved timetable.
+For a new user, this becomes NUS, 2016, sem 1 timetable.
+*/
+export const setDefaultTimetable = ({ dispatch }) => {
+  const defaults = api.getDefault();
+  const modulesList = defaults.then((response) => {
+    if (response) {
+      return api.getModulesList(...response);
+    }
+    return api.getModulesList('NUS', 2016, 1);
+  });
+  const userModules = defaults.then((response) => {
+    if (response) {
+      return api.getUserModules(...response);
+    }
+    return api.getUserModules('NUS', 2016, 1);
+  });
+  Promise.all([defaults, modulesList, userModules]).then(values => {
+    dispatch(types.RETRIEVE_MODULES_LIST, values[1]);
+    dispatch(types.ATTACH_USER_MODULES, values[2]);
   })
   .catch(() => {
     dispatch(types.RETRIEVE_ALL_ERROR);

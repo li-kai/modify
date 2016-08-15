@@ -44,7 +44,7 @@
 
 <script>
 import {
-  retrieveAllModules,
+  setDefaultTimetable,
   addModule,
   toggleSearchStatus,
 } from '../vuex/actions';
@@ -62,7 +62,7 @@ export default {
   vuex: {
     actions: {
       toggleSearchStatus,
-      retrieveAllModules,
+      setDefaultTimetable,
       addModule,
     },
     getters: {
@@ -86,7 +86,7 @@ export default {
   },
 
   created() {
-    this.retrieveAllModules(this.school, this.year, this.sem);
+    this.setDefaultTimetable();
   },
 
   ready() {

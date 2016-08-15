@@ -17,14 +17,14 @@
 <script>
 import store from '../vuex/store';
 import { getSchool, getYear, getSemester } from '../vuex/getters';
-import { setSchool, retrieveAllModules } from '../vuex/actions';
+import { setSchool, setUserTimetable } from '../vuex/actions';
 
 export default {
   store,
   vuex: {
     actions: {
       setSchool,
-      retrieveAllModules,
+      setUserTimetable,
     },
     getters: {
       school: getSchool,
@@ -47,7 +47,7 @@ export default {
       },
       set(val) {
         this.setSchool(val);
-        this.retrieveAllModules(val, this.year, this.getSemester);
+        this.setUserTimetable(val, this.year, this.getSemester);
       },
     },
   },

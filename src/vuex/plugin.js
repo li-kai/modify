@@ -1,12 +1,14 @@
 import localforage from 'localforage';
 import {
+  SET_SCHOOL,
   ADD_MODULE,
   DELETE_MODULE,
   CHANGE_MODULE_COLOR,
   ON_CLICK_LESSON,
 } from './mutation-types';
 
-const STORAGE_KEY = 'user-modules';
+const USER_MODULES = 'user-modules';
+const USER_DEFAULT = 'user-default';
 
 const localForagePlugin = store => {
   store.subscribe((mutation, { timetable }) => {
@@ -15,9 +17,17 @@ const localForagePlugin = store => {
       mutation.type === CHANGE_MODULE_COLOR ||
       // only save when user has selected
       mutation.type === ON_CLICK_LESSON && timetable.selectable.length === 0) {
+      // store user modules with its uid
       localforage.setItem(
-        STORAGE_KEY + timetable.school + timetable.year + timetable.semester,
+        USER_MODULES + timetable.school + timetable.year + timetable.semester,
         timetable.userModules,
+      );
+    }
+    // todo: more 'set' methods for year and sems
+    if (mutation.type === SET_SCHOOL) {
+      localforage.setItem(
+        USER_DEFAULT,
+        [timetable.school, timetable.year, timetable.semester],
       );
     }
   });

@@ -6,11 +6,12 @@ Vue.use(VueResource);
 // Vue.http.options.crossOrigin = true;
 // Vue.http.options.xhr = { withCredentials: true };
 const API_ROOT = 'https://api.modify.sg/';
-const AllModulesResource = Vue.resource(`${API_ROOT}modulesList/{/school}/{/year}/{/sem}`);
+const ModulesListResource = Vue.resource(`${API_ROOT}modulesList/{/school}/{/year}/{/sem}`);
 const ModuleResource = Vue.resource(`${API_ROOT}modules/{/school}/{/year}/{/sem}/{/moduleCode}`);
 
 const USER_MODULES_KEY = 'user-modules';
-const ALL_MODULES_KEY = 'modify-modules';
+const MODULES_LIST_KEY = 'modify-modules';
+const USER_DEFAULT = 'user-default';
 
 function getFromForage(key, apiCall) {
   return localforage.getItem(key).then((value) => {
@@ -35,10 +36,13 @@ function getFromForage(key, apiCall) {
 }
 
 export default {
-  getAllModules(school, year, sem) {
+  getDefault() {
+    return localforage.getItem(USER_DEFAULT);
+  },
+  getModulesList(school, year, sem) {
     return getFromForage(
-      ALL_MODULES_KEY + school + year + sem,
-      AllModulesResource.get({ school, year, sem }),
+      MODULES_LIST_KEY + school + year + sem,
+      ModulesListResource.get({ school, year, sem }),
     );
   },
   getUserModules(school, year, sem) {

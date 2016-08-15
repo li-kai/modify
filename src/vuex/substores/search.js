@@ -1,5 +1,5 @@
 import {
-  RETRIEVE_ALL_MODULES,
+  RETRIEVE_MODULES_LIST,
   RETRIEVE_ALL_ERROR,
   ADD_MODULE,
   DELETE_MODULE,
@@ -15,9 +15,8 @@ const state = {
 
 const mutations = {
   // Retrieve all modules to be searched
-  [RETRIEVE_ALL_MODULES](state, list) {
+  [RETRIEVE_MODULES_LIST](state, list) {
     state.retrieveAllError = false;
-
     // sort by alphabetical
     list = list.sort((a, b) => a.code.localeCompare(b.code));
     // freeze the objects
