@@ -168,14 +168,14 @@ export default {
 }
 
 .lesson--only::after {
+  background: #000;
+  opacity: 0.1;
   content: '';
   position: absolute;
   top: 0;
   right: 0;
   height: 100%;
   width: 0.5em;
-  background: inherit;
-  filter: brightness(0.9);
 }
 
 .lesson--ghosted {
