@@ -54,10 +54,10 @@ export default {
 
   created() {
     // calculate which week it is
-    const firstWeek = new Date('2016-8-8');
+    const firstWeek = new Date(2016, 7, 8);
     const today = new Date();
     // difference in weeks
-    const weeks = Math.round((today - firstWeek) / 604800000);
+    const weeks = Math.ceil((today - firstWeek) / 604800000);
     this.week = `Week ${weeks}`;
 
     // display different strings
