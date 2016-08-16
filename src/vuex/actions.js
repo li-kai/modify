@@ -40,6 +40,7 @@ export const setDefaultTimetable = ({ dispatch }) => {
     return api.getUserModules('NUS', 2016, 1);
   });
   Promise.all([defaults, modulesList, userModules]).then(values => {
+    if (values[0]) dispatch(types.SET_SCHOOL, values[0][0]);
     dispatch(types.RETRIEVE_MODULES_LIST, values[1]);
     dispatch(types.ATTACH_USER_MODULES, values[2]);
   })
