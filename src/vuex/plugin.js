@@ -7,8 +7,7 @@ import {
   ON_CLICK_LESSON,
 } from './mutation-types';
 
-const USER_MODULES = 'user-modules';
-const USER_DEFAULT = 'user-default';
+import { USER_MODULES_KEY, USER_SETTINGS_KEY } from '../constants';
 
 const localForagePlugin = store => {
   store.subscribe((mutation, { timetable }) => {
@@ -19,14 +18,15 @@ const localForagePlugin = store => {
       mutation.type === ON_CLICK_LESSON && timetable.selectable.length === 0) {
       // store user modules with its uid
       localforage.setItem(
-        USER_MODULES + timetable.school + timetable.year + timetable.semester,
+        USER_MODULES_KEY + timetable.school + timetable.year + timetable.semester,
         timetable.userModules,
       );
     }
     // todo: more 'set' methods for year and sems
+    // will not save settings if user did not remove the onboard module
     if (mutation.type === SET_SCHOOL || mutation.type === ADD_MODULE) {
       localforage.setItem(
-        USER_DEFAULT,
+        USER_SETTINGS_KEY,
         {
           school: timetable.school,
           year: timetable.year,

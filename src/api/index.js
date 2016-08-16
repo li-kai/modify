@@ -1,6 +1,12 @@
 import Vue from 'vue';
 import VueResource from 'vue-resource';
 import localforage from 'localforage';
+import {
+  USER_MODULES_KEY,
+  MODULES_LIST_KEY,
+  USER_SETTINGS_KEY,
+  userOnboardModule,
+} from '../constants';
 
 Vue.use(VueResource);
 // Vue.http.options.crossOrigin = true;
@@ -8,10 +14,6 @@ Vue.use(VueResource);
 const API_ROOT = 'https://api.modify.sg/';
 const ModulesListResource = Vue.resource(`${API_ROOT}modulesList/{/school}/{/year}/{/sem}`);
 const ModuleResource = Vue.resource(`${API_ROOT}modules/{/school}/{/year}/{/sem}/{/moduleCode}`);
-
-const USER_MODULES_KEY = 'user-modules';
-const MODULES_LIST_KEY = 'modify-modules';
-const USER_DEFAULT = 'user-default';
 
 function getFromForage(key, apiCall) {
   return localforage.getItem(key).then((value) => {
@@ -35,9 +37,36 @@ function getFromForage(key, apiCall) {
   });
 }
 
+/**
+  * Returns either user modules if they are present, or retrieve onboard module
+  */
+function getUserModulesOrOnboardModules(combinedKey) {
+  return localforage.getItem(combinedKey).then((value) => {
+    if (value) {
+      return Promise.resolve(value);
+    }
+    // check all keys, and check if user has ANY previous usage
+    return localforage.keys().then((keys) => {
+      // do some clean up on this step
+      if (keys.length > 50) {
+        keys.forEach((key) => {
+          if (key.indexOf('-') === -1 && key.indexOf('user') === -1) {
+            localforage.removeItem(key);
+          }
+        });
+      }
+      // user has used modify before
+      if (keys.some(key => key.indexOf(USER_MODULES_KEY) !== -1)) {
+        return Promise.resolve(null); // but not this particular set
+      }
+      return Promise.resolve(userOnboardModule);
+    });
+  });
+}
+
 export default {
   getDefault() {
-    return localforage.getItem(USER_DEFAULT);
+    return localforage.getItem(USER_SETTINGS_KEY);
   },
   getModulesList(school, year, sem) {
     return getFromForage(
@@ -46,7 +75,7 @@ export default {
     );
   },
   getUserModules(school, year, sem) {
-    return localforage.getItem(USER_MODULES_KEY + school + year + sem);
+    return getUserModulesOrOnboardModules(USER_MODULES_KEY + school + year + sem);
   },
   getModule(school, year, sem, moduleCode) {
     return getFromForage(

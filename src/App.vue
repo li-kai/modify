@@ -125,7 +125,7 @@ export default {
   .container__logo-text {
     display: inline-block;
     position: relative;
-    bottom: 2px;
+    bottom: 1px;
     left: -3px;
     font-size: 1.5em;
     font-weight: 600;

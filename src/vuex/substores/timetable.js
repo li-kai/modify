@@ -23,7 +23,7 @@ const ONLY = 'only';
 const INITIAL = 'initial';
 
 // For onboarding usage
-import { userOnboardModule, colorsList } from '../../constants';
+import { colorsList } from '../../constants';
 
 const state = {
   school: 'NUS',
@@ -38,7 +38,6 @@ const state = {
   selected: {},
   colorCounter: -1,
   retrieveError: false,
-  newUser: true,
 };
 
 // mutations
@@ -52,30 +51,19 @@ const mutations = {
     // clear out remnants
     resetTimetable(state);
 
-    // has timetable or new user
-    if (userModules || state.newUser) {
-      // pre-exisiting user
-      if (userModules) {
-        state.userModules = userModules;
-        state.newUser = false;
-      }
-
-      // brand new user
-      if (state.newUser) {
-        state.userModules = userOnboardModule;
-      }
-
+    // restore modules
+    if (userModules) {
+      state.userModules = userModules;
       for (let i = state.userModules.length - 1; i >= 0; i--) {
         allocateLessons(state, state.userModules[i]);
-        sortByLengthDescending(state.week);
       }
     }
+    sortByLengthDescending(state.week);
   },
   [ADD_MODULE](state, module) {
     state.retrieveError = false;
-    if (state.newUser) {
+    if (state.userModules.length === 1 && state.userModules[0].code === 'MOD101') {
       resetTimetable(state);
-      state.newUser = false;
     }
 
     // change all snake_case keys to camelCase ones
@@ -161,7 +149,6 @@ export default {
 
 function resetTimetable(state) {
   state.userModules = [];
-  state.selectable = [];
   Object.keys(state.week).forEach(day => {
     state.week[day] = [];
   });

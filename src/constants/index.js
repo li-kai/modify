@@ -18,8 +18,8 @@ export const userOnboardModule = [
           code: 'MOD101',
           lessonType: 'I am',
           classNo: 'fixed.',
-          venue: 'I can\'t',
-          weekText: 'be moved.',
+          venue: 'I\'m your only',
+          weekText: 'choice.',
           dayText: 'tue',
           displayStatus: 'only',
           startTime: '1000',
@@ -65,3 +65,7 @@ export const userOnboardModule = [
 export const colorsList = ['#42A5F5', '#4CAF50', '#EBB72C',
                            '#f64747', '#FF8300', '#BA68C8',
                            '#7BC0BF', '#607D8B', '#919191'];
+
+export const USER_MODULES_KEY = 'user-modules';
+export const MODULES_LIST_KEY = 'modify-modules';
+export const USER_SETTINGS_KEY = 'user-settings';
