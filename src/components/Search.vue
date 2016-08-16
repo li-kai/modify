@@ -370,6 +370,7 @@ $searchInputHeight: 3rem;
 
   .search__add--float {
     position: static;
+    z-index: 9;
     border-radius: 0;
     width: $searchInputHeight;
   }

@@ -115,7 +115,6 @@ export default {
   color: #fff;
   height: 100%;
   position: relative;
-  margin-left: 0.125em;
   padding: 0.125em 0.25em;
   user-select: none;
   cursor: pointer;
@@ -129,7 +128,7 @@ export default {
 }
 
 .lesson__type {
-  text-transform: uppercase;
+  // text-transform: uppercase;
 }
 
 .lesson__type, .lesson__venue, .lesson__week {

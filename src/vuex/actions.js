@@ -23,28 +23,32 @@ export const setUserTimetable = ({ dispatch }, school, year, sem) => {
 /*
 Gets the timetable from local forage, by default meaning if the user
 changes the school or semester, this is the last saved timetable.
-For a new user, this becomes NUS, 2016, sem 1 timetable.
+For a new user, this becomes NTU, 2016, sem 1 timetable.
 */
 export const setDefaultTimetable = ({ dispatch }) => {
   const defaults = api.getDefault();
   const modulesList = defaults.then((response) => {
     if (response) {
-      return api.getModulesList(...response);
+      return api.getModulesList(response.school, response.year, response.sem);
     }
-    return api.getModulesList('NUS', 2016, 1);
+    return api.getModulesList('NTU', 2016, 1);
   });
   const userModules = defaults.then((response) => {
     if (response) {
-      return api.getUserModules(...response);
+      return api.getUserModules(response.school, response.year, response.sem);
     }
-    return api.getUserModules('NUS', 2016, 1);
+    return api.getUserModules('NTU', 2016, 1);
   });
   Promise.all([defaults, modulesList, userModules]).then(values => {
-    if (values[0]) dispatch(types.SET_SCHOOL, values[0][0]);
+    const school = values[0] ? values[0].school : 'NTU';
+    dispatch(types.SET_SCHOOL, school);
     dispatch(types.RETRIEVE_MODULES_LIST, values[1]);
     dispatch(types.ATTACH_USER_MODULES, values[2]);
   })
-  .catch(() => {
+  .catch((err) => {
+    if (err) {
+      console.error(err);
+    }
     dispatch(types.RETRIEVE_ALL_ERROR);
   });
 };

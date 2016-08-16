@@ -22,10 +22,8 @@ const GHOSTED = 'ghosted';
 const ONLY = 'only';
 const INITIAL = 'initial';
 
-// Hex code for colors
-const colorsList = ['#42A5F5', '#4CAF50', '#EBB72C',
-                    '#f64747', '#FF8300', '#BA68C8',
-                    '#7BC0BF', '#607D8B', '#919191'];
+// For onboarding usage
+import { userOnboardModule, colorsList } from '../../constants';
 
 const state = {
   school: 'NUS',
@@ -40,6 +38,7 @@ const state = {
   selected: {},
   colorCounter: -1,
   retrieveError: false,
+  newUser: true,
 };
 
 // mutations
@@ -51,21 +50,33 @@ const mutations = {
   },
   [ATTACH_USER_MODULES](state, userModules) {
     // clear out remnants
-    state.userModules = [];
-    state.selectable = [];
-    Object.keys(state.week).forEach(day => {
-      state.week[day] = [];
-    });
-    if (userModules) {
-      state.userModules = userModules;
-      for (let i = userModules.length - 1; i >= 0; i--) {
-        allocateLessons(state, userModules[i]);
+    resetTimetable(state);
+
+    // has timetable or new user
+    if (userModules || state.newUser) {
+      // pre-exisiting user
+      if (userModules) {
+        state.userModules = userModules;
+        state.newUser = false;
+      }
+
+      // brand new user
+      if (state.newUser) {
+        state.userModules = userOnboardModule;
+      }
+
+      for (let i = state.userModules.length - 1; i >= 0; i--) {
+        allocateLessons(state, state.userModules[i]);
         sortByLengthDescending(state.week);
       }
     }
   },
   [ADD_MODULE](state, module) {
     state.retrieveError = false;
+    if (state.newUser) {
+      resetTimetable(state);
+      state.newUser = false;
+    }
 
     // change all snake_case keys to camelCase ones
     const camelCaseModule = {};
@@ -147,6 +158,14 @@ export default {
   state,
   mutations,
 };
+
+function resetTimetable(state) {
+  state.userModules = [];
+  state.selectable = [];
+  Object.keys(state.week).forEach(day => {
+    state.week[day] = [];
+  });
+}
 
 function snakeCaseToCamelCase(text) {
   return text.replace(/_\w/g, m => m[1].toUpperCase());
@@ -244,7 +263,7 @@ function createLesson(data, code) {
   lesson.hours = calculateHours(lesson.startTime, lesson.endTime);
 
   lesson.code = code;
-  lesson.lessonType = lesson.lessonType.toLowerCase();
+  lesson.lessonType = lesson.lessonType.toUpperCase();
   lesson.dayText = lesson.dayText.toLowerCase();
 
   // set uid for tracking
@@ -264,3 +283,4 @@ function calculateHours(startTime, endTime) {
   const minutes = parseInt(endTime.slice(2), 10) - parseInt(startMinutes, 10);
   return hour + (minutes / 60);
 }
+

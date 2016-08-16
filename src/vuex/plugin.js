@@ -24,10 +24,14 @@ const localForagePlugin = store => {
       );
     }
     // todo: more 'set' methods for year and sems
-    if (mutation.type === SET_SCHOOL) {
+    if (mutation.type === SET_SCHOOL || mutation.type === ADD_MODULE) {
       localforage.setItem(
         USER_DEFAULT,
-        [timetable.school, timetable.year, timetable.semester],
+        {
+          school: timetable.school,
+          year: timetable.year,
+          sem: timetable.semester,
+        },
       );
     }
   });
