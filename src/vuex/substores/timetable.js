@@ -172,9 +172,9 @@ function setSelected(state) {
 }
 
 function sortByLengthDescending(week) {
-  for (let i = week.length - 1; i >= 0; i--) {
-    week[i].sort((a, b) => b.hours - a.hours);
-  }
+  Object.keys(week).forEach((name) => {
+    week[name].sort((a, b) => b.hours - a.hours);
+  });
 }
 
 function allocateLessons(state, module) {
