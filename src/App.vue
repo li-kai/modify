@@ -20,8 +20,8 @@
   <footer>
     <div class="footer__container">
       <div class="container__contribute">
-        <div class="container__title">Contribute:</div>
-        <a href="https://github.com/li-kai/modify" class="container__logo">
+        <div class="contribute__title">Contribute:</div>
+        <a href="https://github.com/li-kai/modify" class="contribute__logo">
           <img src="assets/github.svg">
         </a>
       </div>
@@ -95,21 +95,17 @@ export default {
   max-width: 980px;
 }
 
-.container__title {
+.contribute__title {
   color: #ccc;
   margin-bottom: 0.2em;
 }
 
-.container__contribute, .container__contact {
+.container__contribute {
   display: inline-block;
   margin: 0.5em 0.875em 0 0.875em;
 }
 
-.container__contact {
-  margin-left: 3em;
-}
-
-.container__logo {
+.contribute__logo {
   display: block;
   height: 3em;
   width: 3em;
