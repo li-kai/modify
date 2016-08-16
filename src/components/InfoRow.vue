@@ -55,10 +55,14 @@
 <script>
 import ModChangeColor from './ChangeColor';
 import { deleteModule } from '../vuex/actions';
+import { getSchool } from '../vuex/getters';
 export default {
   vuex: {
     actions: {
       deleteModule,
+    },
+    getters: {
+      getSchool,
     },
   },
 
@@ -102,6 +106,7 @@ export default {
 
   methods: {
     parseDateTime(time) {
+      if (this.getSchool === 'NTU') return 'Working on it!';
       if (!time) return 'No exams'; // no exam date
       const readableDateTime = new Date(time);
       const options = {
