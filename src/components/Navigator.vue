@@ -7,6 +7,7 @@
     </div>
     <div class="navigator__menu">
       <button class="menu__swap"
+              :title="setSchoolTitle()"
               :class="`menu__swap--${school}`"
               @click="swapSchool">
         {{ school }}
@@ -39,6 +40,10 @@ export default {
       const swappedSchool = this.school === 'NUS' ? 'NTU' : 'NUS';
       this.setSchool(swappedSchool);
       this.setUserTimetable(swappedSchool, this.year, this.getSemester);
+    },
+    setSchoolTitle() {
+      const swappedSchool = this.school === 'NUS' ? 'NTU' : 'NUS';
+      return `Swap to ${swappedSchool}`;
     },
   },
 

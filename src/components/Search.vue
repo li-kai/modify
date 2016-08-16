@@ -38,6 +38,11 @@
             v-el:search-add>
       <svg :class="toggleActive('add__icon')"><use xlink:href="#plus"/></svg>
     </button>
+    <button class="search__download"
+            title="Download your timetable"
+            @click="downloadTimetable">
+      <svg :class="toggleActive('add__icon')"><use xlink:href="#download"/></svg>
+    </button>
     <div class="search__error" v-if="hasError">No connection to Modify. Please refresh the page to try again.</div>
   </div>
 </template>
@@ -57,6 +62,7 @@ import {
   getYear,
   getSemester,
 } from '../vuex/getters';
+import domtoimage from 'dom-to-image';
 
 export default {
   vuex: {
@@ -202,6 +208,17 @@ export default {
       // return both
       return codeMatches.concat(nameMatches);
     },
+    downloadTimetable() {
+      const timetable = document.getElementsByClassName('timetable')[0];
+      const style = { margin: '0', marginLeft: '-0.25em' };
+      domtoimage.toJpeg(timetable, { bgcolor: '#fff', style })
+      .then((dataUrl) => {
+        const link = document.createElement('a');
+        link.download = 'timetable.jpeg';
+        link.href = dataUrl;
+        link.click();
+      });
+    },
   },
 };
 </script>
@@ -327,6 +344,10 @@ $searchInputHeight: 3rem;
   transform: rotate(45deg);
 }
 
+.search__download {
+  display: none;
+}
+
 .search__error {
   position: absolute;
   left: 0;
@@ -377,6 +398,21 @@ $searchInputHeight: 3rem;
 
   .search__add:hover {
     background: #DB425F;
+  }
+
+  .search__download {
+    display: block;
+    transition: background 0.225s $bezierStandardCurve,
+            border-radius 0.225s $bezierStandardCurve;
+    flex: 0 0 ($searchInputHeight);
+    height: ($searchInputHeight);
+    border: 0;
+    line-height: 0;
+    background: #ddd;
+  }
+
+  .search__download:hover {
+    background: #ccc;
   }
 }
 
