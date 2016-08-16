@@ -79,20 +79,16 @@ export default {
             const lesson = lessonsByHour[i][0];
             const start = parseInt(lesson.startTime.slice(2), 10) / 60;
             // lesson starts before spillover, skip
-            if (start < spillover) {
+            if (spillover > start) {
               i++;
               spillover = 0;
             } else {
               row[i] = [lessonsByHour[i].shift()];
-              if (Number.isInteger(lesson.hours)) {
-                // increment by duration
-                i += lesson.hours;
-                spillover = 0;
-              } else {
-                const flooredHours = Math.floor(lesson.hours);
-                i += flooredHours;
-                spillover = lesson.hours - flooredHours;
-              }
+              // increment by hours duration
+              const flooredHours = Math.floor(start + lesson.hours);
+              i += flooredHours;
+              // spillover is trailing duration from the 0 minute mark
+              spillover = start + lesson.hours - flooredHours;
               numberOfLessons--;
             }
           }
