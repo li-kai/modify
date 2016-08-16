@@ -184,7 +184,8 @@ export default {
       // codeMatches will always come first
       const codeMatches = [];
       const nameMatches = [];
-      listOfModules.forEach((module) => {
+      for (let i = 0, len = listOfModules.length; i < len; i++) {
+        const module = listOfModules[i];
         // either code matches
         if (this.queryCode(module.code, search, matchNumericCode)) {
           codeMatches.push(module);
@@ -194,7 +195,10 @@ export default {
         } else if (module.title.search(matchStartOfWord) !== -1) {
           nameMatches.push(module);
         }
-      });
+        // break if total module matches is reached
+        // todo: increase limit
+        if (codeMatches.length + nameMatches.length > 250) break;
+      }
       // return both
       return codeMatches.concat(nameMatches);
     },
