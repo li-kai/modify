@@ -125,7 +125,7 @@ export default {
 
 @media (min-width: 768px) {
   .header__logo {
-    margin: 0.5em 0 0 0.75em;
+    margin: 0.75em 0 0 0.75em;
   }
 
   .logo__svg {
