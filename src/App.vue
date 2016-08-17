@@ -1,8 +1,10 @@
 <template>
   <header>
     <div class="header__container">
-      <img class="container__logo" src="assets/logo_64x64_black.png">
-      <span class="container__logo-text">odify</span>
+      <div class="header__logo">
+        <img class="logo__svg" src="assets/logo.svg">
+        <span class="logo__text">Modify</span>
+      </div>
       <mod-navigator></mod-navigator>
     </div>
   </header>
@@ -72,13 +74,16 @@ export default {
   padding: 0 0.5em;
 }
 
-.container__logo {
+.header__logo {
   display: inline-block;
-  margin: 0.5em 0 0 0.25em;
+  margin: 0.5em 0 0 0.125em;
+}
+
+.logo__svg {
   height: 2.5em;
 }
 
-.container__logo-text {
+.logo__text {
   display: none;
 }
 
@@ -119,17 +124,18 @@ export default {
 }
 
 @media (min-width: 768px) {
-  .container__logo {
-    height: 1.5em;
+  .header__logo {
+    margin: 0.5em 0 0 0.75em;
   }
 
-  .container__logo-text {
+  .logo__svg {
+    height: 2em;
+  }
+
+  .logo__text {
     display: inline-block;
     position: relative;
-    bottom: 1px;
-    left: -3px;
-    font-size: 1.5em;
-    font-weight: 600;
+    bottom: 0.5em;
   }
 
   .controls {
