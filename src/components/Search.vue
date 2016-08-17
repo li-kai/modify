@@ -41,7 +41,7 @@
     <button class="search__download"
             title="Download your timetable"
             @click="downloadTimetable">
-      <svg :class="toggleActive('add__icon')"><use xlink:href="#download"/></svg>
+      <svg class="download__icon"><use xlink:href="#download"/></svg>
     </button>
     <div class="search__error" v-if="hasError">No connection to Modify. Please refresh the page to try again.</div>
   </div>
@@ -336,7 +336,7 @@ $searchInputHeight: 3rem;
   background: #303030;
 }
 
-.add__icon {
+.add__icon, .download__icon {
   transition: all 0.225s $bezierStandardCurve;
 }
 
