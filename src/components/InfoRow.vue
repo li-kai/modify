@@ -7,7 +7,7 @@
       <td class="module__code">{{ module.code }}</td>
       <td class="module__title">{{ module.title }}</td>
       <td class="module__credit">{{ module.credit }}</td>
-      <td class="module__exam" >{{ readableDateTime }}</td>
+      <td class="module__exam" >{{ readableDateTime }}<div class="module__duration">({{ readableDuration }})</div></td>
       <td class="module__action" :class="toggleClass(!showMoreInfo, 'module__action')">
         <button class="action__button" @click="deleteModule(module)">
           <svg><use xlink:href="#delete"/></svg>
@@ -55,14 +55,13 @@
 <script>
 import ModChangeColor from './ChangeColor';
 import { deleteModule } from '../vuex/actions';
-import { getSchool } from '../vuex/getters';
+import { } from '../vuex/getters';
 export default {
   vuex: {
     actions: {
       deleteModule,
     },
     getters: {
-      getSchool,
     },
   },
 
@@ -82,11 +81,13 @@ export default {
       showMoreInfo: false,
       colorClass: '',
       readableDateTime: '',
+      readableDuration: '',
     };
   },
 
   created() {
-    this.readableDateTime = this.parseDateTime(this.module.examTime);
+    this.readableDateTime = this.parseDateTime();
+    this.readableDuration = this.parseDuration();
     this.colorClass = `module__${this.module.code}`;
     const moduleColor = this.module.color;
     document.styleSheets[0].insertRule(`.${this.colorClass}{background:${moduleColor};}`, 0);
@@ -105,16 +106,21 @@ export default {
   },
 
   methods: {
-    parseDateTime(time) {
-      if (this.getSchool === 'NTU') return 'Working on it!';
+    parseDateTime() {
+      const time = this.module.examTime;
       if (!time) return 'No exams'; // no exam date
-      const readableDateTime = new Date(time);
+      const dateTime = new Date(time);
       const options = {
         weekday: 'short',
         year: 'numeric', month: 'short', day: 'numeric',
         hour: 'numeric', minute: 'numeric', hour12: true,
       };
-      return readableDateTime.toLocaleDateString('en-GB', options);
+      return dateTime.toLocaleDateString('en-GB', options);
+    },
+    parseDuration() {
+      const duration = this.module.examDuration;
+      if (!duration) return ''; // no duration
+      return `(${duration.hours} hours ${duration.minutes} minutes)`;
     },
     toggleInfo() {
       this.showMoreInfo = !this.showMoreInfo;
@@ -249,6 +255,15 @@ export default {
   .module__exam {
     padding-bottom: 0.5em;
     border-bottom: 1px solid #ddd;
+  }
+
+  .module__duration::before {
+    content: "Exam on: ";
+    color: transparent;
+  }
+
+  .module__duration {
+    display: inline-block;
   }
 
   .module__action {
