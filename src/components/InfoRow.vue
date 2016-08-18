@@ -7,7 +7,7 @@
       <td class="module__code">{{ module.code }}</td>
       <td class="module__title">{{ module.title }}</td>
       <td class="module__credit">{{ module.credit }}</td>
-      <td class="module__exam" >{{ readableDateTime }}<div class="module__duration">({{ readableDuration }})</div></td>
+      <td class="module__exam" >{{ readableDateTime }}<div class="module__duration">{{ readableDuration }}</div></td>
       <td class="module__action" :class="toggleClass(!showMoreInfo, 'module__action')">
         <button class="action__button" @click="deleteModule(module)">
           <svg><use xlink:href="#delete"/></svg>
