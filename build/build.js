@@ -34,7 +34,8 @@ webpack(webpackConfig, function (err, stats) {
   }) + '\n')
 
   exec('real-favicon generate faviconDescription.json faviconData.json ' + config.build.assetsRoot)
-  /* If there are any changes to favicons, uncomment the bottom two lines to update the index.html */
+  /* If there are any changes to favicons, uncomment the bottom 2 lines to update the index.html
+  	 then copy over from the built version to the index, as the bottom undoes the html minification */
   // exec('real-favicon inject faviconData.json ' + config.build.assetsRoot + ' *.html')
   // exec('real-favicon check-for-update --fail-on-update faviconData.json')
   rm(path.resolve('faviconData.json'));
