@@ -12,8 +12,8 @@ Vue.use(VueResource);
 // Vue.http.options.crossOrigin = true;
 // Vue.http.options.xhr = { withCredentials: true };
 const API_ROOT = 'https://api.modify.sg/';
-const ModulesListResource = Vue.resource(`${API_ROOT}modulesList/{/school}/{/year}/{/sem}`);
-const ModuleResource = Vue.resource(`${API_ROOT}modules/{/school}/{/year}/{/sem}/{/moduleCode}`);
+const ModulesListResource = Vue.resource(`${API_ROOT}modulesList/{school}/{year}/{sem}`);
+const ModuleResource = Vue.resource(`${API_ROOT}modules/{school}/{year}/{sem}/{moduleCode}`);
 
 function getFromForage(key, apiCall) {
   return localforage.getItem(key).then((value) => {
