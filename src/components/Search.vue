@@ -95,6 +95,7 @@ export default {
     this.setDefaultTimetable();
   },
 
+  // fab becomes fixed when it reaches the search bar
   ready() {
     const addButton = this.$els.searchAdd;
     const fixedClass = 'search__add--float';
@@ -170,9 +171,6 @@ export default {
         this.pointer = 0;
       }
     },
-    userHasIt(code) {
-      return this.userModules.some(module => module.code === code);
-    },
     queryCode(value, search, regex) {
       // search not pure numbers
       if (isNaN(parseInt(search, 10))) {
@@ -184,7 +182,7 @@ export default {
     },
     querySearch(listOfModules) {
       const search = this.query.toUpperCase();
-      // regex match for later use
+      // regex matches for later use
       const matchStartOfWord = new RegExp(`\\b${this.query}`, 'i');
       const matchNumericCode = new RegExp(`[a-zA-Z]${this.query}`);
       // codeMatches will always come first
@@ -202,7 +200,7 @@ export default {
           nameMatches.push(module);
         }
         // break if total module matches is reached
-        // todo: increase limit
+        // todo: increase limit without causing DOM lag
         if (codeMatches.length + nameMatches.length > 250) break;
       }
       // return both
