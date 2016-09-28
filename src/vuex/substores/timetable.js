@@ -219,7 +219,7 @@ function allocateLessons(state, module) {
 function insertLessonByType(categorizedLessons, lesson) {
   const lessonType = lesson.lessonType;
   // if lessonType is already in the categorizedLessons object
-  if ({}.hasOwnProperty.call(categorizedLessons, 'lessonType')) {
+  if ({}.hasOwnProperty.call(categorizedLessons, lessonType)) {
     // check if this lesson also belongs to the one selected previously
     const selectedClassNo = categorizedLessons[lessonType][0].classNo;
     if (lesson.classNo === selectedClassNo) {
