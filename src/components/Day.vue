@@ -17,6 +17,7 @@
 import ModLesson from './Lesson';
 import { } from '../vuex/actions';
 import { } from '../vuex/getters';
+
 export default {
 
   name: 'Day',
@@ -88,7 +89,8 @@ export default {
               const flooredHours = Math.floor(start + lesson.hours);
               i += flooredHours;
               // spillover is trailing duration from the 0 minute mark
-              spillover = start + lesson.hours - flooredHours;
+              spillover = start + lesson.hours;
+              spillover -= flooredHours;
               numberOfLessons--;
             }
           }

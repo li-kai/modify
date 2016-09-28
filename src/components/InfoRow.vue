@@ -56,6 +56,7 @@
 import ModChangeColor from './ChangeColor';
 import { deleteModule } from '../vuex/actions';
 import { } from '../vuex/getters';
+
 export default {
   vuex: {
     actions: {
@@ -113,8 +114,12 @@ export default {
       const dateTime = new Date(time);
       const options = {
         weekday: 'short',
-        year: 'numeric', month: 'short', day: 'numeric',
-        hour: 'numeric', minute: 'numeric', hour12: true,
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
       };
       return dateTime.toLocaleDateString('en-GB', options);
     },

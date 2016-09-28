@@ -8,6 +8,8 @@ import {
   ON_CLICK_LESSON,
   ON_CLICK_OUTSIDE,
 } from '../mutation-types';
+// For onboarding usage
+import { colorsList } from '../../constants';
 /*
 Timetable will be in charged of handling lessons from modules.
 Specifically, timetable will be doing the following:
@@ -22,16 +24,18 @@ const GHOSTED = 'ghosted';
 const ONLY = 'only';
 const INITIAL = 'initial';
 
-// For onboarding usage
-import { colorsList } from '../../constants';
-
 const state = {
   school: 'NUS',
   year: 2016,
   semester: 1,
   week: {
-    mon: [], tue: [], wed: [], thu: [], fri: [],
-    sat: [], sun: [],
+    mon: [],
+    tue: [],
+    wed: [],
+    thu: [],
+    fri: [],
+    sat: [],
+    sun: [],
   },
   userModules: [],
   selectable: [],
@@ -149,7 +153,7 @@ export default {
 
 function resetTimetable(state) {
   state.userModules = [];
-  Object.keys(state.week).forEach(day => {
+  Object.keys(state.week).forEach((day) => {
     state.week[day] = [];
   });
 }
@@ -160,7 +164,7 @@ function snakeCaseToCamelCase(text) {
 
 function setSelected(state) {
   const classNo = state.selected.classNo;
-  state.selectable.forEach(lesson => {
+  state.selectable.forEach((lesson) => {
     if (lesson.classNo !== classNo) {
       lesson.displayStatus = HIDDEN;
     } else {
@@ -192,7 +196,7 @@ function allocateLessons(state, module) {
     Object.values(lessons).forEach((listOfLessons) => {
       const classNo = listOfLessons[0].classNo;
       if (listOfLessons.every(lesson => lesson.classNo === classNo)) {
-        listOfLessons.forEach(lesson => {
+        listOfLessons.forEach((lesson) => {
           lesson.displayStatus = ONLY;
         });
       }
@@ -215,7 +219,7 @@ function allocateLessons(state, module) {
 function insertLessonByType(categorizedLessons, lesson) {
   const lessonType = lesson.lessonType;
   // if lessonType is already in the categorizedLessons object
-  if (categorizedLessons.hasOwnProperty(lessonType)) {
+  if ({}.hasOwnProperty.call(categorizedLessons, 'lessonType')) {
     // check if this lesson also belongs to the one selected previously
     const selectedClassNo = categorizedLessons[lessonType][0].classNo;
     if (lesson.classNo === selectedClassNo) {
@@ -270,4 +274,3 @@ function calculateHours(startTime, endTime) {
   const minutes = parseInt(endTime.slice(2), 10) - parseInt(startMinutes, 10);
   return hour + (minutes / 60);
 }
-

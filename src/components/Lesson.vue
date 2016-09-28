@@ -15,6 +15,7 @@ import {
   onClickLesson,
 } from '../vuex/actions';
 import { } from '../vuex/getters';
+
 export default {
 
   name: 'Lesson',

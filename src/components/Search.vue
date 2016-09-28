@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import domtoimage from 'dom-to-image';
 import {
   setDefaultTimetable,
   addModule,
@@ -62,7 +63,6 @@ import {
   getYear,
   getSemester,
 } from '../vuex/getters';
-import domtoimage from 'dom-to-image';
 
 export default {
   vuex: {

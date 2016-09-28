@@ -9,13 +9,13 @@ import {
 
 import { USER_MODULES_KEY, USER_SETTINGS_KEY } from '../constants';
 
-const localForagePlugin = store => {
+const localForagePlugin = (store) => {
   store.subscribe((mutation, { timetable }) => {
     if (mutation.type === ADD_MODULE ||
       mutation.type === DELETE_MODULE ||
       mutation.type === CHANGE_MODULE_COLOR ||
       // only save when user has selected
-      mutation.type === ON_CLICK_LESSON && timetable.selectable.length === 0) {
+      (mutation.type === ON_CLICK_LESSON && timetable.selectable.length === 0)) {
       // store user modules with its uid
       localforage.setItem(
         USER_MODULES_KEY + timetable.school + timetable.year + timetable.semester,

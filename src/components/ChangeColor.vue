@@ -10,6 +10,7 @@
 <script>
 import { colorsList } from '../constants';
 import { changeModuleColor } from '../vuex/actions';
+
 export default {
   vuex: {
     actions: {

@@ -52,7 +52,7 @@ export const setDefaultTimetable = ({ dispatch }) => {
 };
 
 export const addModule = ({ dispatch }, school, year, sem, moduleCode) => {
-  api.getModule(school, year, sem, moduleCode).then(response => {
+  api.getModule(school, year, sem, moduleCode).then((response) => {
     dispatch(types.ADD_MODULE, response);
   }).catch(() => {
     dispatch(types.ADD_ERROR);
