@@ -124,6 +124,7 @@ export default {
 }
 
 .lesson__code {
+  word-break: break-all;
   font-weight: 600;
 }
 

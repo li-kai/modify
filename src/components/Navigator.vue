@@ -59,7 +59,10 @@ export default {
     const firstWeek = new Date(2016, 7, 8);
     const today = new Date();
     // difference in weeks
-    const weeks = Math.ceil((today - firstWeek) / 604800000);
+    let weeks = Math.ceil((today - firstWeek) / 604800000);
+    if (weeks > 7) {
+      weeks -= 1;
+    }
     this.week = `Week ${weeks}`;
 
     // display different strings

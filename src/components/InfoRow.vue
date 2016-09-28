@@ -93,6 +93,7 @@ export default {
     document.styleSheets[0].insertRule(`.${this.colorClass}{background:${moduleColor};}`, 0);
   },
 
+  // remove the style when destroyed
   beforeDestroy() {
     const sheet = document.styleSheets[0];
     const rules = sheet.cssRules;
