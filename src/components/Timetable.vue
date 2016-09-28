@@ -10,8 +10,7 @@
       </ol>
       <ol class="week">
         <li is="mod-day" :class="toggleHover()"
-            v-for="(name, lessons) in week"
-            v-if="$index < 5 || lessons.length > 0"
+            v-for="(name, lessons) in filteredDays"
             :name="name" :lessons="lessons" :is-expanded="isExpanded">
             <div slot="name">{{ name }}</div>
         </li>
@@ -29,6 +28,7 @@ import {
   getYear,
   getSemester,
 } from '../vuex/getters';
+
 export default {
   vuex: {
     actions: { },
@@ -70,6 +70,16 @@ export default {
     filteredTimings() {
       const numOfSchoolHours = this.isExpanded ? 17 : 13;
       return this.timings.slice(0, numOfSchoolHours);
+    },
+    /* only display relevant days (ignore sat/sun when there are no lessons) */
+    filteredDays() {
+      const days = {};
+      Object.keys(this.week).forEach((name, index) => {
+        if (index < 5 || this.week[name].length > 0) {
+          days[name] = this.week[name];
+        }
+      });
+      return days;
     },
   },
 
