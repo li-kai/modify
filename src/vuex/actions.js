@@ -7,12 +7,14 @@ export const setSchool = ({ dispatch }, school) => {
 
 export const setUserTimetable = ({ dispatch }, school, year, sem) => {
   // first get the list of all modules
-  api.getModulesList(school, year, sem).then(response => {
+  api.getModulesList(school, year, sem).then((response) => {
     dispatch(types.RETRIEVE_MODULES_LIST, response);
-    return api.getUserModules(school, year, sem);
   })
+  .catch(() => {
+    dispatch(types.RETRIEVE_ALL_ERROR);
+  });
   // then get the previously saved modules, if any
-  .then(response => {
+  api.getUserModules(school, year, sem).then((response) => {
     dispatch(types.ATTACH_USER_MODULES, response);
   })
   .catch(() => {
@@ -26,39 +28,23 @@ changes the school or semester, this is the last saved timetable.
 For a new user, this becomes NTU, 2016, sem 1 timetable.
 */
 export const setDefaultTimetable = ({ dispatch }) => {
-  const previous = api.getDefault();
-  const modulesList = previous.then((response) => {
-    if (response) {
-      return api.getModulesList(response.school, response.year, response.sem);
-    }
-    return api.getModulesList('NTU', 2016, 1);
-  });
-  const userModules = previous.then((response) => {
-    if (response) {
-      return api.getUserModules(response.school, response.year, response.sem);
-    }
-    return api.getUserModules('NTU', 2016, 1);
-  });
-  Promise.all([previous, modulesList, userModules]).then(values => {
-    const previousSettings = values[0];
+  api.getDefault().then((settings) => {
     // by default its 'NTU', for now
-    const school = previousSettings ? previousSettings.school : 'NTU';
-    // set the school as before
-    dispatch(types.SET_SCHOOL, school);
-    // set the modules list as before
-    dispatch(types.RETRIEVE_MODULES_LIST, values[1]);
-    // set the modules
-    const modules = values[2];
-    dispatch(types.ATTACH_USER_MODULES, modules);
-    /* TODO: decide if modules should auto update and how to handle auto update
-    if (modules) {
-      modules.forEach((module) => {
-        api.getModule(school, values[0].year, values[0].sem, module.code).then(response => {
-          dispatch(types.ADD_MODULE, response);
-        })
-      })
+    if (!settings) {
+      settings = {
+        school: 'NTU',
+        year: 2016,
+        sem: 1,
+      };
     }
-    */
+    dispatch(types.SET_SCHOOL, settings.school);
+
+    api.getModulesList(settings.school, settings.year, settings.sem).then((modulesList) => {
+      dispatch(types.RETRIEVE_MODULES_LIST, modulesList);
+    });
+    api.getUserModules(settings.school, settings.year, settings.sem).then((userModules) => {
+      dispatch(types.ATTACH_USER_MODULES, userModules);
+    });
   })
   .catch(() => {
     dispatch(types.RETRIEVE_ALL_ERROR);
