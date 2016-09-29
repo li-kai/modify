@@ -84,7 +84,7 @@ export default {
               i++;
               spillover = 0;
             } else {
-              row[i] = [lessonsByHour[i].shift()];
+              row[i].push(lessonsByHour[i].shift());
               // increment by hours duration
               const flooredHours = Math.floor(start + lesson.hours);
               i += flooredHours;
