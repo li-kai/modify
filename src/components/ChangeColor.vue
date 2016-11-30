@@ -1,8 +1,8 @@
 <template>
   <ul class="colors">
-    <li class="colors__item" v-for="n in 9"
-      @click="changeColor(colorsList[n])">
-      <div class="item__shape" :class="'color__' + (n + 1)"></div>
+    <li class="colors__item" v-for="n in 10"
+      @click="changeColor(colorsList[n - 1])">
+      <div class="item__shape" :class="'color__' + n"></div>
     </li>
   </ul>
 </template>

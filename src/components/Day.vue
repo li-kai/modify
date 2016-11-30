@@ -4,9 +4,9 @@
     <ul class="day__hours">
       <ol class="hours__row" v-for="row in schedule">
         <li class="row__hour"
-            track-by="$index"
-            v-for="hour in row">
-          <mod-lesson v-for="lesson in hour" track-by="uid" :lesson="lesson"><mod-lesson>
+            v-for="(hour, index) in row"
+            :key="index">
+          <mod-lesson v-for="lesson in hour" :key="lesson.uid" :lesson="lesson"><mod-lesson>
         </li>
       </ol>
     </ul>

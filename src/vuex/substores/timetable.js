@@ -100,7 +100,8 @@ const mutations = {
       const day = arrayOfKeys[i];
       week[day] = week[day].filter(lesson => lesson.code !== code);
     }
-    state.userModules.$remove(module);
+    const index = state.userModules.indexOf(module);
+    state.userModules.splice(index, 1);
   },
   // user starts to pick lesson type
   [ON_CLICK_LESSON](state, selectedLesson) {

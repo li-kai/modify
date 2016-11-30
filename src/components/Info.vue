@@ -1,14 +1,16 @@
 <template>
   <table :class="['modify-table', {'modify-table--active': isSearching}]">
     <thead>
-      <tr class="table__header" v-if="modulesNum > 0" transition="table__module">
-        <th class="header__color"></th>
-        <th class="header__code">Code</th>
-        <th class="header__title">Title</th>
-        <th class="header__credit">Credits</th>
-        <th class="header__exam">Exam Timing</th>
-        <th class="header__action"></th>
-      </tr>
+      <transition name="table__module">
+        <tr class="table__header" v-if="modulesNum > 0">
+          <th class="header__color"></th>
+          <th class="header__code">Code</th>
+          <th class="header__title">Title</th>
+          <th class="header__credit">Credits</th>
+          <th class="header__exam">Exam Timing</th>
+          <th class="header__action"></th>
+        </tr>
+      </transition>
     </thead>
     <tbody>
       <tr v-if="hasError" transition="table__row">

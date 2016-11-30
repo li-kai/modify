@@ -19,7 +19,7 @@
       </div>
     </section>
   </main>
-  <footer>
+  <footer v-once>
     <div class="footer__container">
       <div class="container__contribute">
         <div class="contribute__title">Contribute:</div>

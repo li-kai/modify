@@ -13,18 +13,18 @@
               aria-label="Search modules" aria-haspopup="false" aria-autocomplete="list"
               v-show="isActive"
               transition="bar__input"
-              v-el:input="v-el:input"
+              ref="input"
               v-model="query"
               @focus="hasFocus = true"
               @input="pointerReset()"
               @keydown="keydown"/>
       <ul class="bar__list" v-show="hasFocus && query">
-        <li class="list__module"
-            :class="{'list__module--selected': $index === pointer }"
-            v-for="module of queriedModules"
-            track-by="$index"
+        <li v-for="(module, index) of queriedModules"
+            :key="index"
+            :class="{'list__module--selected': index === pointer }"
+            class="list__module"
             @click="selectModule(module.code)"
-            @mouseover="pointAtModule($index)"
+            @mouseover="pointAtModule(index)"
             >
           {{ module.code }} : {{ module.title }}
         </li>
@@ -35,7 +35,7 @@
             class="search__add--float"
             title="Add a module"
             @click="toggleSearch"
-            v-el:search-add>
+            ref="searchAdd">
       <svg :class="toggleActive('add__icon')"><use xlink:href="#plus"/></svg>
     </button>
     <button class="search__download"
@@ -96,8 +96,8 @@ export default {
   },
 
   // fab becomes fixed when it reaches the search bar
-  ready() {
-    const addButton = this.$els.searchAdd;
+  mounted() {
+    const addButton = this.$refs.searchAdd;
     const fixedClass = 'search__add--float';
     window.onscroll = () => {
       if (window.scrollY < this.$el.getBoundingClientRect().top) {
@@ -118,7 +118,7 @@ export default {
     toggleSearch() {
       this.toggleSearchStatus();
       if (this.isActive === true) {
-        this.$nextTick(() => this.$els.input.focus());
+        this.$nextTick(() => this.$refs.input.focus());
       } else {
         this.hasFocus = false;
         this.query = '';
@@ -158,7 +158,7 @@ export default {
           break;
         case 27: // esc
           this.hasFocus = false;
-          this.$els.input.blur();
+          this.$refs.input.blur();
           break;
         default:
           break;
@@ -419,7 +419,7 @@ $searchInputHeight: 3rem;
   transition: all 0.225s $bezierStandardCurve;
 }
 
-.bar__input-enter, .bar__input-leave {
+.bar__input-enter, .bar__input-active {
   transform: scale(0);
   opacity: 0;
 }
