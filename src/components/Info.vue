@@ -18,14 +18,15 @@
           Please refresh the page to try again. We could not connect to the database.
         </td>
       </tr>
-      <tr v-if="modulesNum == 0 && !hasError" transition="table__row">
-        <td colspan="6" class="table__intro">Click the button to add a module!</td>
-      </tr>
+      <transition name="table__row">>
+        <tr v-if="modulesNum == 0 && !hasError">
+          <td colspan="6" class="table__intro">Click the button to add a module!</td>
+        </tr>
+      </transition>
     </tbody>
-    <tbody is="mod-info-row" v-for="module in userModules"
-        :module="module"
-        transition="table__module">
-    </tbody>
+    <transition name="table__module">
+      <tbody is="mod-info-row" v-for="module in userModules" :module="module"></tbody>
+    </transition>
   </table>
 </template>
 
