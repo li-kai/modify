@@ -10,7 +10,7 @@
       </ol>
       <ol class="week">
         <li is="mod-day" :class="toggleHover()"
-            v-for="(name, lessons) in filteredDays"
+            v-for="(lessons, name) in filteredDays"
             :name="name" :lessons="lessons" :is-expanded="isExpanded">
             <div slot="name">{{ name }}</div>
         </li>
