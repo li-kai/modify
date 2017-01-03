@@ -1,23 +1,25 @@
 <template>
   <div class="search">
     <h1 :class="toggleActive('search__header')">Modules</h1>
+    <transition name="search__label">
     <label class="search__label" for="mod"
-            v-show="isActive"
-            transition="search__label">
+            v-show="isActive">
       Search
     </label>
+    </transition>
     <div class="search__bar">
+      <transition name="bar__input">
       <input class="bar__input" id="mod" name="mod"
               autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
               title="Search modules" type="text" value="" role="combobox" dir="ltr"
               aria-label="Search modules" aria-haspopup="false" aria-autocomplete="list"
               v-show="isActive"
-              transition="bar__input"
               ref="input"
               v-model="query"
               @focus="hasFocus = true"
               @input="pointerReset()"
               @keydown="keydown"/>
+      </transition>
       <ul class="bar__list" v-show="hasFocus && query">
         <li v-for="(module, index) of queriedModules"
             :key="index"
@@ -252,6 +254,7 @@ $searchInputHeight: 3rem;
   font-weight: bold;
   left: 0.03rem;
   top: -0.5rem;
+  transition: all 0.225s $bezierStandardCurve;
 }
 
 .search__bar {
@@ -268,6 +271,7 @@ $searchInputHeight: 3rem;
   width: 100%;
   height: $searchInputHeight;
   border-radius: 0;
+  transition: all 0.225s $bezierStandardCurve;
 }
 
 .bar__input:focus {
@@ -414,24 +418,21 @@ $searchInputHeight: 3rem;
   }
 }
 
-.bar__input-transition {
+.bar__input-active, .bar__input-leave {
   opacity: 1;
-  transition: all 0.225s $bezierStandardCurve;
 }
 
-.bar__input-enter, .bar__input-active {
+.bar__input-enter, .bar__input-leave-active {
   transform: scale(0);
   opacity: 0;
 }
 
-.search__label-transition {
+.search__label-active, .search__label-leave {
   opacity: 1;
-  transition: all 0.225s $bezierStandardCurve;
 }
 
-.search__label-enter, .search__label-leave {
+.search__label-enter, .search__label-leave-active {
   transform: translateY(0.5em);
   opacity: 0;
 }
-
 </style>
