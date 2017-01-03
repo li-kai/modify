@@ -1,10 +1,12 @@
 <template>
+  <transition name="color">
   <ul class="colors">
-    <li class="colors__item" v-for="n in 10"
+    <li class="colors__item" v-for="n in 9"
       @click="changeColor(colorsList[n - 1])">
       <div class="item__shape" :class="'color__' + n"></div>
     </li>
   </ul>
+  </transition>
 </template>
 
 <script>
@@ -58,6 +60,7 @@ $colors-list: #42A5F5, #4CAF50, #EBB72C, #e74c3c, #FF8300, #BA68C8, #7BC0BF, #60
 }
 
 .colors {
+  transition: all 0.3s $bezierStandardCurve;
   background: #FFF;
   z-index: 1;
   cursor: pointer;
@@ -91,6 +94,15 @@ $colors-list: #42A5F5, #4CAF50, #EBB72C, #e74c3c, #FF8300, #BA68C8, #7BC0BF, #60
 
 .colors__item:hover {
   background: rgba(0, 0, 0, 0.12);
+}
+
+.color-enter-active, .color-leave {
+  opacity: 1;
+}
+
+.color-enter, .color-leave-active {
+  transform: translateY(-1em);
+  opacity: 0;
 }
 
 .item__shape {

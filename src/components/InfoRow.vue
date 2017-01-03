@@ -22,11 +22,11 @@
             :class="toggleClass(showMoreInfo, 'action__button')">
           <svg><use xlink:href="#info"/></svg>
         </button>
-        <mod-change-color @click="setIsPainting()"
-        v-if="isChoosingColor" :module="module" transition="color"></mod-change-color>
+        <mod-change-color @click="setIsPainting()" v-if="isChoosingColor" :module="module"></mod-change-color>
       </td>
     </tr>
-    <tr class="module__more-info" v-show="showMoreInfo" transition="module__more-info">
+    <transition name="module__more-info">
+    <tr class="module__more-info" v-show="showMoreInfo">
       <td class="more-info__col more-info__description" colspan="3">
         <h4 class="more-info__header">Description:</h4>
         <p>{{ module.description }}</p>
@@ -49,6 +49,7 @@
         <p v-if="!module.preclusion">None</p>
       </td>
     </tr>
+    </transition>
   </tbody>
 </template>
 
@@ -189,6 +190,7 @@ export default {
   background: #E5E5E5;
   color: #2A2A2A;
   box-shadow: $materialBoxShadow;
+  transition: all 0.3s $bezierStandardCurve;
 }
 
 .more-info__col {
@@ -299,28 +301,17 @@ export default {
     font-size: 0.875em;
   }
 
-  .module__more-info-enter, .module__more-info-leave {
+  .module__more-info-enter, .module__more-info-leave-active {
     opacity: 0;
     transform: translate(0, -7em) scale(0.7, 0.5);
   }
 }
 
-.color-transition {
+.module__more-info-enter-active, .module__more-info-leave {
   opacity: 1;
-  transition: all 0.3s $bezierStandardCurve;
 }
 
-.color-enter, .color-leave {
-  transform: translateY(-1em);
-  opacity: 0;
-}
-
-.module__more-info-transition {
-  opacity: 1;
-  transition: all 0.3s $bezierStandardCurve;
-}
-
-.module__more-info-enter, .module__more-info-leave {
+.module__more-info-enter, .module__more-info-leave-active {
   opacity: 0;
   transform: translate(9em, -3em) scale(0.7, 0.5);
 }
