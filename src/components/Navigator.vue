@@ -56,7 +56,7 @@ export default {
 
   created() {
     // calculate which week it is
-    const firstWeek = new Date(2016, 7, 8);
+    const firstWeek = new Date(2017, 0, 9);
     const today = new Date();
     // difference in weeks
     let weeks = Math.ceil((today - firstWeek) / 604800000);

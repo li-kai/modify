@@ -26,8 +26,8 @@ const INITIAL = 'initial';
 
 const state = {
   school: 'NUS',
-  year: 2016,
-  semester: 1,
+  year: new Date().getFullYear(),
+  semester: new Date().getMonth() > 7 ? 1 : 2,
   week: {
     mon: [],
     tue: [],
