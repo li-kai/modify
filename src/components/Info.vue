@@ -13,19 +13,19 @@
       </transition>
     </thead>
     <tbody>
-      <tr v-if="hasError" transition="table__row">
+      <transition name="table__row">
+      <tr v-if="hasError">
         <td colspan="6" class="table__error">
           Please refresh the page to try again. We could not connect to the database.
         </td>
       </tr>
-      <transition name="table__row">>
-        <tr v-if="modulesNum == 0 && !hasError">
-          <td colspan="6" class="table__intro">Click the button to add a module!</td>
-        </tr>
+      <tr v-if="modulesNum == 0 && !hasError">
+        <td colspan="6" class="table__intro">Click the button to add a module!</td>
+      </tr>
       </transition>
     </tbody>
     <transition name="table__module">
-      <tbody is="mod-info-row" v-for="module in userModules" :module="module"></tbody>
+    <tbody is="mod-info-row" v-for="module in userModules" :module="module"></tbody>
     </transition>
   </table>
 </template>
@@ -112,30 +112,36 @@ export default {
     display: none;
   }
 
-  .table__module-enter, .table__module-leave {
+  .table__module-enter-active, .table__module-leave {
     transform: scale(0);
     opacity: 0;
   }
 }
 
-.table__row-transition {
-  opacity: 1;
+.table__row-enter, .table__row-enter-active, .table__row-leave, .table__row-leave-active {
   transition: opacity 0.3s $bezierStandardCurve;
   transition-delay: 0.3s;
+}
+
+.table__row-enter-active, .table__row-leave {
+  opacity: 1;
 }
 
 .table__row-enter {
   opacity: 0;
 }
 
-.table__row-leave {
+.table__row-leave-active {
   opacity: 0;
   transition-delay: 0s;
 }
 
-.table__module-transition {
-  opacity: 1;
+.table__module-enter, .table__module-enter-active, .table__module-leave, .table__module-leave-active {
   transition: all 0.3s $bezierStandardCurve;
+}
+
+.table__module-enter-active, .table__module-leave {
+  opacity: 1;
 }
 
 .table__module-enter {
@@ -143,7 +149,7 @@ export default {
   opacity: 0;
 }
 
-.table__module-leave {
+.table__module-leave-active {
   opacity: 0;
 }
 </style>
